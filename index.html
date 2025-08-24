@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szymon Hruszka - Industrial Designer & 3D Generalist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Swiper.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Syne', sans-serif;
+            color: #fff;
+            background-color: #000; /* True black background */
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* New background effect using a pseudo-element */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                /* Splotch 1: Purple */
+                radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.25) 0%, transparent 30%),
+                /* Splotch 2: Pink */
+                radial-gradient(circle at 80% 30%, rgba(219, 39, 119, 0.25) 0%, transparent 30%),
+                /* Splotch 3: Blue */
+                radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.25) 0%, transparent 30%),
+                /* Splotch 4: Orange */
+                radial-gradient(circle at 75% 75%, rgba(249, 115, 22, 0.25) 0%, transparent 25%);
+            
+            filter: blur(80px); /* Heavy blur to make them soft splotches */
+            z-index: -1; /* Place it behind all content */
+            
+            /* Animation for slow, organic movement */
+            animation: moveSplotches 40s alternate infinite;
+        }
+
+        @keyframes moveSplotches {
+            from {
+                transform: translate(-10%, -10%) rotate(0deg);
+            }
+            to {
+                transform: translate(10%, 10%) rotate(360deg);
+            }
+        }
+
+        .liquid-glass {
+            background-color: rgba(255, 255, 255, 0.05);
+            /* Removed the blue tint, leaving only the white shine */
+            background-image: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 60%);
+            background-position: 0 0;
+            background-repeat: no-repeat;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .hero-video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .hero-video-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6); /* Darker overlay */
+        }
+        .hero-background-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            pointer-events: none; /* Makes the video unclickable */
+        }
+
+        .font-extrawide { font-weight: 800; }
+        .font-wide { font-weight: 700; }
+        .font-semibold-wide { font-weight: 600; }
+        .font-medium-wide { font-weight: 500; }
+        
+        .portfolio-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-position 0.4s ease;
+        }
+        .portfolio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .portfolio-card .pdf-icon {
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+        .portfolio-card:hover .pdf-icon {
+            opacity: 1;
+        }
+        .portfolio-card .card-content {
+            background: rgba(0, 0, 0, 0.5);
+            transition: background 0.3s ease;
+        }
+        .portfolio-card:hover .card-content {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        /* Styles for the PDF Modal */
+        #pdf-modal-container.is-visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #pdf-modal-container.is-visible #pdf-modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Carousel Styles */
+        .portfolio-carousel-container {
+            position: relative;
+            max-width: 100vw;
+            overflow: hidden;
+        }
+        .swiper-container {
+            width: 100%;
+            padding: 50px 0;
+        }
+        .swiper-slide {
+            width: 300px; /* Set a fixed width for slides */
+            height: auto;
+            transition: opacity 0.3s ease;
+        }
+        /* Fade effect at the edges */
+        .portfolio-carousel-container::before,
+        .portfolio-carousel-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 15%; /* Adjust width of the fade */
+            z-index: 2;
+            pointer-events: none; /* Allows clicking through the fade */
+        }
+        .portfolio-carousel-container::before {
+            left: 0;
+            background: linear-gradient(to right, #000, transparent);
+        }
+        .portfolio-carousel-container::after {
+            right: 0;
+            background: linear-gradient(to left, #000, transparent);
+        }
+
+        /* Carousel Navigation Arrows */
+        .swiper-button-next, .swiper-button-prev {
+            position: absolute; /* Changed from fixed */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            color: #fff;
+            z-index: 10;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .swiper-button-next:hover, .swiper-button-prev:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .swiper-button-prev {
+            left: 20px;
+        }
+        .swiper-button-next {
+            right: 20px;
+        }
+        .swiper-button-disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 p-4">
+        <nav class="container mx-auto flex justify-between items-center p-4 rounded-2xl liquid-glass">
+            <a href="#" class="text-2xl font-extrawide tracking-wider">SH</a>
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#services" class="hover:text-gray-300 transition-colors duration-300 font-medium-wide">Services</a>
+                <a href="#about" class="hover:text-gray-300 transition-colors duration-300 font-medium-wide">About</a>
+                <a href="#portfolio" class="hover:text-gray-300 transition-colors duration-300 font-medium-wide">Portfolio</a>
+            </div>
+            <a href="#contact" class="hidden md:block bg-white text-black px-6 py-2 rounded-full font-semibold-wide hover:bg-gray-200 transition-colors duration-300">Contact</a>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden z-50">
+                <svg id="menu-open-icon" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                <svg id="menu-close-icon" class="w-8 h-8 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 flex flex-col items-center justify-center space-y-8 text-3xl font-bold liquid-glass opacity-0 pointer-events-none transition-opacity duration-300">
+        <a href="#services" class="mobile-link">Services</a>
+        <a href="#about" class="mobile-link">About</a>
+        <a href="#portfolio" class="mobile-link">Portfolio</a>
+        <a href="#contact" class="mobile-link">Contact</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen flex items-center overflow-hidden">
+        <div class="hero-video-container">
+            <video autoplay loop muted playsinline class="hero-background-video" poster="https://placehold.co/1920x1080/000000/ffffff?text=Loading+Video...">
+                <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+             <div class="z-10 max-w-4xl text-left">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-wide tracking-tight text-white">I will <span id="typed-text"></span></h1>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- My Services Section -->
+        <section id="services" class="py-20 lg:py-32">
+            <div class="max-w-5xl text-left">
+                <h2 class="text-4xl md:text-5xl font-wide mb-4">My Services</h2>
+                <p class="text-lg md:text-xl text-gray-400 mb-16 max-w-3xl">Crafting innovative solutions from concept to creation. I blend aesthetic form with practical function to deliver exceptional results.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="p-8 rounded-3xl liquid-glass text-left flex flex-col items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/><path d="m12 20 4-4"/></svg>
+                    <h3 class="text-2xl font-semibold-wide mb-4">Industrial Design</h3>
+                    <p class="text-gray-300 font-medium-wide">Developing tangible products that are both beautiful and user-centric, from initial sketches to final production-ready designs.</p>
+                </div>
+                <!-- Service 2 -->
+                <div class="p-8 rounded-3xl liquid-glass text-left flex flex-col items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/></svg>
+                    <h3 class="text-2xl font-semibold-wide mb-4">3D Modeling</h3>
+                    <p class="text-gray-300 font-medium-wide">Creating photorealistic renderings and animations that bring ideas to life for marketing, prototyping, and presentations.</p>
+                </div>
+                <!-- Service 3 -->
+                <div class="p-8 rounded-3xl liquid-glass text-left flex flex-col items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3-3 3 3"/></svg>
+                    <h3 class="text-2xl font-semibold-wide mb-4">Prototyping</h3>
+                    <p class="text-gray-300 font-medium-wide">Transforming concepts into physical and digital prototypes to test, refine, and validate design directions effectively.</p>
+                </div>
+                <!-- Service 4 -->
+                <div class="p-8 rounded-3xl liquid-glass text-left flex flex-col items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><path d="M12 12s-4-2-8-2-8 2-8 2 4 2 8 2 8-2 8-2z"/><path d="M12 12v8s-4 2-8 2-8-2-8-2 4-2 8-2 8 2 8 2z"/><path d="M12 4s-4 2-8 2-8-2-8-2 4-2 8-2 8 2 8 2z"/></svg>
+                    <h3 class="text-2xl font-semibold-wide mb-4">Brand Identity</h3>
+                    <p class="text-gray-300 font-medium-wide">Designing memorable logos, color palettes, and guidelines that create a cohesive and impactful brand presence.</p>
+                </div>
+                <!-- Service 5 -->
+                <div class="p-8 rounded-3xl liquid-glass text-left flex flex-col items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><path d="M2.5 12a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M8.5 12a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M14.5 12a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M20.5 12a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M2.5 18a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M8.5 18a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M14.5 18a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M20.5 18a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M2.5 6a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M8.5 6a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M14.5 6a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M20.5 6a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/></svg>
+                    <h3 class="text-2xl font-semibold-wide mb-4">Motion Graphics</h3>
+                    <p class="text-gray-300 font-medium-wide">Creating engaging 2D and 3D animations for explainers, advertisements, and digital content that capture attention.</p>
+                </div>
+                <!-- Service 6 -->
+                <div class="p-8 rounded-3xl liquid-glass text-left flex flex-col items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+                    <h3 class="text-2xl font-semibold-wide mb-4">Video Editing</h3>
+                    <p class="text-gray-300 font-medium-wide">Assembling and refining raw footage into a polished final product with professional color grading, sound, and effects.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Me Section -->
+        <section id="about" class="py-20 lg:py-32">
+            <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
+                <div class="md:w-1/2">
+                    <img src="https://placehold.co/600x600/1a1a1a/ffffff?text=Szymon+Hruszka" alt="Szymon Hruszka" class="rounded-3xl w-full h-auto object-cover">
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-4xl md:text-5xl font-wide mb-6">About Me</h2>
+                    <p class="text-lg text-gray-300 mb-4 font-medium-wide">
+                        I'm Szymon Hruszka, a passionate designer with a keen eye for detail and a drive for innovation. My work is a fusion of art and engineering, where I strive to create products that not only look stunning but also provide meaningful experiences.
+                    </p>
+                    <p class="text-lg text-gray-300 font-medium-wide">
+                        With a background in both industrial design and 3D visualization, I possess a comprehensive skill set that covers the entire design process. I thrive on complex challenges and am dedicated to pushing the boundaries of what's possible in design and technology.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20 lg:py-32">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-5xl text-left">
+                <h2 class="text-4xl md:text-5xl font-wide mb-4">Portfolio</h2>
+                <p class="text-lg md:text-xl text-gray-400 mb-16 max-w-3xl">A selection of projects that showcase my dedication to quality, creativity, and problem-solving. Click to view the detailed PDF case study.</p>
+            </div>
+        </div>
+        
+        <div class="portfolio-carousel-container">
+            <!-- Swiper -->
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <!-- Project 1 -->
+                    <div class="swiper-slide">
+                        <a href="path/to/your/project1.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
+                            <img src="https://placehold.co/600x800/333333/ffffff?text=Project+One" alt="Project One" class="w-full h-auto block">
+                            <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                            </div>
+                            <div class="absolute bottom-0 left-0 right-0 p-4 card-content">
+                                <h3 class="text-xl font-semibold-wide">Project Title One</h3>
+                                <p class="text-sm text-gray-300 font-medium-wide">Ergonomic Chair Design</p>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Project 2 -->
+                    <div class="swiper-slide">
+                        <a href="path/to/your/project2.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
+                            <img src="https://placehold.co/600x800/444444/ffffff?text=Project+Two" alt="Project Two" class="w-full h-auto block">
+                            <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                            </div>
+                            <div class="absolute bottom-0 left-0 right-0 p-4 card-content">
+                                <h3 class="text-xl font-semibold-wide">Project Title Two</h3>
+                                <p class="text-sm text-gray-300 font-medium-wide">3D Product Animation</p>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Project 3 -->
+                    <div class="swiper-slide">
+                        <a href="path/to/your/project3.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
+                            <img src="https://placehold.co/600x800/555555/ffffff?text=Project+Three" alt="Project Three" class="w-full h-auto block">
+                            <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                            </div>
+                            <div class="absolute bottom-0 left-0 right-0 p-4 card-content">
+                                <h3 class="text-xl font-semibold-wide">Project Title Three</h3>
+                                <p class="text-sm text-gray-300 font-medium-wide">Modular Speaker System</p>
+                            </div>
+                        </a>
+                    </div>
+                     <!-- Project 4 -->
+                    <div class="swiper-slide">
+                        <a href="path/to/your/project4.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
+                            <img src="https://placehold.co/600x800/666666/ffffff?text=Project+Four" alt="Project Four" class="w-full h-auto block">
+                            <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                            </div>
+                            <div class="absolute bottom-0 left-0 right-0 p-4 card-content">
+                                <h3 class="text-xl font-semibold-wide">Project Title Four</h3>
+                                <p class="text-sm text-gray-300 font-medium-wide">Concept Vehicle</p>
+                            </div>
+                        </a>
+                    </div>
+                     <!-- Project 5 -->
+                    <div class="swiper-slide">
+                        <a href="path/to/your/project5.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
+                            <img src="https://placehold.co/600x800/777777/ffffff?text=Project+Five" alt="Project Five" class="w-full h-auto block">
+                            <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                            </div>
+                            <div class="absolute bottom-0 left-0 right-0 p-4 card-content">
+                                <h3 class="text-xl font-semibold-wide">Project Title Five</h3>
+                                <p class="text-sm text-gray-300 font-medium-wide">Lighting Fixture</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Add Arrows -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 lg:py-32">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl text-left">
+                <h2 class="text-4xl md:text-5xl font-wide mb-4">Get In Touch</h2>
+                <p class="text-lg md:text-xl text-gray-400 mb-8">Have a project in mind or just want to say hello? I'd love to hear from you. Feel free to reach out via email or connect with me on social media.</p>
+                
+                <div class="p-8 rounded-3xl liquid-glass inline-block">
+                    <a href="mailto:contact@szymonhruszka.com" class="text-xl md:text-2xl font-semibold-wide hover:text-gray-300 transition-colors">
+                        contact@szymonhruszka.com
+                    </a>
+                </div>
+
+                <div class="mt-12 flex justify-start space-x-6">
+                    <!-- Social Link 1: LinkedIn (replace # with your URL) -->
+                    <a href="#" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd"/></svg>
+                    </a>
+                    <!-- Social Link 2: Behance (replace # with your URL) -->
+                    <a href="#" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                         <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.4 6.1h-5.8v1.5h5.8v-1.5zm-5.8 3.8h-2.1v-1.5h2.1v1.5zm2.1 0h-1.5v-1.5h1.5v1.5zm-2.1 2.3h-2.1v-1.5h2.1v1.5zm2.1 0h-1.5v-1.5h1.5v1.5zm-2.1 2.3h-2.1v-1.5h2.1v1.5zm2.1 0h-1.5v-1.5h1.5v1.5zm-10.7-6.1c-2.1 0-3.8 1.7-3.8 3.8s1.7 3.8 3.8 3.8 3.8-1.7 3.8-3.8-1.7-3.8-3.8-3.8zm0 6.1c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zm-1.5-8.6h-5.8v1.5h5.8v-1.5z"/></svg>
+                    </a>
+                    <!-- Social Link 3: Instagram (replace # with your URL) -->
+                    <a href="#" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.85s.012-3.584.07-4.85c.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.359 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.947s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44c0-.795-.645-1.44-1.441-1.44z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 mt-20">
+        <div class="container mx-auto text-center py-8">
+            <p class="text-gray-400 font-medium-wide">&copy; 2024 Szymon Hruszka. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- PDF Viewer Modal -->
+    <div id="pdf-modal-container" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-[100] opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out">
+        <div id="pdf-modal-content" class="relative w-[95%] h-[95%] md:w-[90%] md:h-[90%] max-w-6xl bg-black rounded-lg shadow-2xl transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-in-out">
+            <button id="close-modal-btn" class="absolute -top-3 -right-3 md:top-0 md:-right-12 text-white bg-transparent rounded-full p-2 z-10 hover:text-gray-400 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <iframe id="pdf-viewer" src="" frameborder="0" class="w-full h-full rounded-lg"></iframe>
+        </div>
+    </div>
+
+    <!-- Swiper.js JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <!-- Typed.js JS -->
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+
+    <script>
+        // Use window.onload to ensure all external scripts are loaded
+        window.onload = function() {
+            // Mobile Menu Logic
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const openIcon = document.getElementById('menu-open-icon');
+            const closeIcon = document.getElementById('menu-close-icon');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            function toggleMenu() {
+                mobileMenu.classList.toggle('opacity-0');
+                mobileMenu.classList.toggle('pointer-events-none');
+                openIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+                // Prevent body scroll when menu is open
+                if (!mobileMenu.classList.contains('opacity-0')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = 'auto';
+                }
+            }
+
+            mobileMenuButton.addEventListener('click', toggleMenu);
+
+            // Close menu when a link is clicked
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // PDF Modal Logic
+            const modalContainer = document.getElementById('pdf-modal-container');
+            const pdfViewer = document.getElementById('pdf-viewer');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const portfolioLinks = document.querySelectorAll('#portfolio a.portfolio-card');
+
+            function openModal(pdfUrl) {
+                if (!pdfUrl || pdfUrl === '#') return;
+                pdfViewer.setAttribute('src', pdfUrl);
+                modalContainer.classList.add('is-visible');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                pdfViewer.setAttribute('src', '');
+                modalContainer.classList.remove('is-visible');
+                document.body.style.overflow = 'auto';
+            }
+
+            portfolioLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pdfUrl = this.getAttribute('href');
+                    openModal(pdfUrl);
+                });
+            });
+
+            closeModalBtn.addEventListener('click', closeModal);
+            modalContainer.addEventListener('click', (e) => e.target === modalContainer && closeModal());
+            document.addEventListener('keydown', (e) => e.key === 'Escape' && modalContainer.classList.contains('is-visible') && closeModal());
+
+            // Swiper Initialization
+            var swiper = new Swiper('.swiper-container', {
+                effect: 'slide',
+                grabCursor: true,
+                centeredSlides: true,
+                slidesPerView: 'auto',
+                loop: true,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    320: { slidesPerView: 1, spaceBetween: 20 },
+                    640: { slidesPerView: 2, spaceBetween: 30 },
+                    1024: { slidesPerView: 3, spaceBetween: 50 }
+                }
+            });
+
+            // Typed.js Initialization
+            var typed = new Typed('#typed-text', {
+                strings: [
+                    'design your logo.',
+                    'visualise your product.',
+                    'create your company\'s identity.',
+                    'make your ideas real.',
+                    'edit your video.'
+                ],
+                typeSpeed: 30,
+                backSpeed: 20,
+                backDelay: 1500,
+                loop: true,
+                smartBackspace: true,
+                showCursor: false,
+            });
+        };
+    </script>
+
+</body>
+</html>
