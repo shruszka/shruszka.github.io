@@ -144,8 +144,16 @@
         }
         .swiper-slide {
             width: 300px; /* Set a fixed width for slides */
-            height: auto;
+            height: auto; /* Let content define height */
             transition: opacity 0.3s ease;
+        }
+        .swiper-slide.video-slide {
+            width: auto; /* Let aspect ratio determine width */
+            height: 400px; /* Match the height of the image cards (300 * 4/3) */
+        }
+        .swiper-slide.video-slide iframe {
+            height: 100%;
+            aspect-ratio: 16 / 9;
         }
         /* Fade effect at the edges */
         .portfolio-carousel-container::before,
@@ -232,8 +240,8 @@
     <!-- Hero Section -->
     <section id="home" class="relative h-screen flex items-center overflow-hidden">
         <div class="hero-video-container">
-            <video autoplay loop muted playsinline class="hero-background-video" poster="https://placehold.co/1920x1080/000000/ffffff?text=Loading+Video...">
-                <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4" type="video/mp4">
+            <video autoplay loop muted playsinline class="hero-background-video" poster="">
+                <source src="assets/video/herovid.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
@@ -324,10 +332,10 @@
             <!-- Swiper -->
             <div class="swiper-container">
                 <div class="swiper-wrapper">
-                    <!-- Project 1 -->
+                    <!-- Project 1 (Image) -->
                     <div class="swiper-slide">
-                        <a href="assets/portfolio/BROU - Plansza.png" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
-                            <img src="assets/portfolio/BROU - Plansza.png" alt="Project One" class="w-full h-auto block">
+                        <a href="https://placehold.co/1200x1600/333333/ffffff?text=Project+One+Image" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass h-full">
+                            <img src="https://placehold.co/600x800/333333/ffffff?text=Project+One" alt="Project One" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                             </div>
@@ -337,10 +345,10 @@
                             </div>
                         </a>
                     </div>
-                    <!-- Project 2 -->
+                    <!-- Project 2 (PDF) -->
                     <div class="swiper-slide">
-                        <a href="path/to/your/project2.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
-                            <img src="https://placehold.co/600x800/444444/ffffff?text=Project+Two" alt="Project Two" class="w-full h-auto block">
+                        <a href="path/to/your/project2.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass h-full">
+                            <img src="https://placehold.co/600x800/444444/ffffff?text=Project+Two" alt="Project Two" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                             </div>
@@ -350,23 +358,16 @@
                             </div>
                         </a>
                     </div>
-                    <!-- Project 3 -->
-                    <div class="swiper-slide">
-                        <a href="path/to/your/project3.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
-                            <img src="https://placehold.co/600x800/555555/ffffff?text=Project+Three" alt="Project Three" class="w-full h-auto block">
-                            <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
-                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                            </div>
-                            <div class="absolute bottom-0 left-0 right-0 p-4 card-content">
-                                <h3 class="text-xl font-semibold-wide">Project Title Three</h3>
-                                <p class="text-sm text-gray-300 font-medium-wide">Modular Speaker System</p>
-                            </div>
-                        </a>
+                    <!-- Project 3 (Video) -->
+                    <div class="swiper-slide video-slide">
+                        <div class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass w-full h-full">
+                           <iframe class="w-full h-full" src="https://www.youtube.com/embed/nGfmjw1HIMA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
                     </div>
-                     <!-- Project 4 -->
+                     <!-- Project 4 (PDF) -->
                     <div class="swiper-slide">
-                        <a href="path/to/your/project4.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
-                            <img src="https://placehold.co/600x800/666666/ffffff?text=Project+Four" alt="Project Four" class="w-full h-auto block">
+                        <a href="path/to/your/project4.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass h-full">
+                            <img src="https://placehold.co/600x800/666666/ffffff?text=Project+Four" alt="Project Four" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                             </div>
@@ -376,10 +377,10 @@
                             </div>
                         </a>
                     </div>
-                     <!-- Project 5 -->
+                     <!-- Project 5 (Image) -->
                     <div class="swiper-slide">
-                        <a href="path/to/your/project5.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
-                            <img src="https://placehold.co/600x800/777777/ffffff?text=Project+Five" alt="Project Five" class="w-full h-auto block">
+                        <a href="https://placehold.co/1200x1600/777777/ffffff?text=Project+Five+Image" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass h-full">
+                            <img src="https://placehold.co/600x800/777777/ffffff?text=Project+Five" alt="Project Five" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                             </div>
@@ -436,12 +437,13 @@
     </footer>
 
     <!-- PDF Viewer Modal -->
-    <div id="pdf-modal-container" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-[100] opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out">
-        <div id="pdf-modal-content" class="relative w-[95%] h-[95%] md:w-[90%] md:h-[90%] max-w-6xl bg-black rounded-lg shadow-2xl transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-in-out">
-            <button id="close-modal-btn" class="absolute -top-3 -right-3 md:top-0 md:-right-12 text-white bg-transparent rounded-full p-2 z-10 hover:text-gray-400 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+    <div id="pdf-modal-container" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-[100] opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out p-4">
+        <div id="pdf-modal-content" class="relative w-full h-full max-w-5xl bg-black rounded-lg shadow-2xl transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-in-out">
+            <button id="close-modal-btn" class="absolute -top-3 -right-3 md:top-2 md:right-2 text-white bg-gray-800 rounded-full p-2 z-10 hover:bg-gray-700 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
-            <iframe id="pdf-viewer" src="" frameborder="0" class="w-full h-full rounded-lg"></iframe>
+            <iframe id="pdf-viewer" src="" frameborder="0" class="w-full h-full rounded-lg hidden"></iframe>
+            <img id="image-viewer" src="" alt="Portfolio Image" class="w-full h-full object-contain hidden">
         </div>
     </div>
 
@@ -493,18 +495,30 @@
             // PDF Modal Logic
             const modalContainer = document.getElementById('pdf-modal-container');
             const pdfViewer = document.getElementById('pdf-viewer');
+            const imageViewer = document.getElementById('image-viewer');
             const closeModalBtn = document.getElementById('close-modal-btn');
             const portfolioLinks = document.querySelectorAll('#portfolio a.portfolio-card');
 
-            function openModal(pdfUrl) {
-                if (!pdfUrl || pdfUrl === '#') return;
-                pdfViewer.setAttribute('src', pdfUrl);
+            function openModal(url) {
+                if (!url || url === '#') return;
+
+                if (url.endsWith('.pdf')) {
+                    pdfViewer.src = url;
+                    pdfViewer.classList.remove('hidden');
+                    imageViewer.classList.add('hidden');
+                } else {
+                    imageViewer.src = url;
+                    imageViewer.classList.remove('hidden');
+                    pdfViewer.classList.add('hidden');
+                }
+
                 modalContainer.classList.add('is-visible');
                 document.body.style.overflow = 'hidden';
             }
 
             function closeModal() {
-                pdfViewer.setAttribute('src', '');
+                pdfViewer.src = '';
+                imageViewer.src = '';
                 modalContainer.classList.remove('is-visible');
                 document.body.style.overflow = 'auto';
             }
@@ -512,8 +526,8 @@
             portfolioLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    const pdfUrl = this.getAttribute('href');
-                    openModal(pdfUrl);
+                    const url = this.getAttribute('href');
+                    openModal(url);
                 });
             });
 
