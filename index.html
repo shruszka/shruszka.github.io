@@ -142,19 +142,33 @@
             width: 100%;
             padding: 50px 0;
         }
+        
         .swiper-slide {
-            width: 300px; /* Set a fixed width for slides */
-            height: auto; /* Let content define height */
+            width: 350px; /* New width based on 70x100 ratio (350/500 = 0.7) */
+            height: 500px; /* Consistent height for all cards */
             transition: opacity 0.3s ease;
+            flex-shrink: 0; /* Prevent slides from shrinking */
         }
-        .swiper-slide.video-slide {
-            width: auto; /* Let aspect ratio determine width */
-            height: 400px; /* Match the height of the image cards (300 * 4/3) */
-        }
-        .swiper-slide.video-slide iframe {
+        
+        .swiper-slide .portfolio-card {
             height: 100%;
+            width: 100%;
+        }
+
+        /* Target the video slide specifically */
+        .swiper-slide.video-slide {
+            width: auto; /* Allow width to be determined by aspect ratio */
+        }
+        .swiper-slide.video-slide .portfolio-card {
+            /* Height is inherited from .swiper-slide (500px) */
+            /* Width is calculated from height and aspect ratio */
             aspect-ratio: 16 / 9;
         }
+        .swiper-slide.video-slide iframe {
+            width: 100%;
+            height: 100%;
+        }
+
         /* Fade effect at the edges */
         .portfolio-carousel-container::before,
         .portfolio-carousel-container::after {
@@ -174,33 +188,39 @@
             right: 0;
             background: linear-gradient(to left, #000, transparent);
         }
+        
+        /* Hide fades on mobile */
+        @media (max-width: 768px) {
+            .portfolio-carousel-container::before,
+            .portfolio-carousel-container::after {
+                display: none;
+            }
+        }
 
         /* Carousel Navigation Arrows */
         .swiper-button-next, .swiper-button-prev {
-            position: absolute; /* Changed from fixed */
+            position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 50px;
-            height: 50px;
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 50%;
             color: #fff;
             z-index: 10;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 20px 40px; /* Increased padding for larger clickable area */
             transition: all 0.3s ease;
         }
+        .swiper-button-next::after, .swiper-button-prev::after {
+             font-size: 3rem !important; /* Larger arrow icons */
+             font-weight: 800 !important;
+        }
+
         .swiper-button-next:hover, .swiper-button-prev:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            color: #ccc;
         }
         .swiper-button-prev {
-            left: 20px;
+            left: -20px;
         }
         .swiper-button-next {
-            right: 20px;
+            right: -20px;
         }
         .swiper-button-disabled {
             opacity: 0.3;
@@ -216,7 +236,7 @@
             <a href="#" class="text-2xl font-extrawide tracking-wider">SH</a>
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-8">
-                <a href="#services" class="hover:text-gray-300 transition-colors duration-300 font-medium-wide">Services</a>
+                <a href="#skills" class="hover:text-gray-300 transition-colors duration-300 font-medium-wide">Skills</a>
                 <a href="#about" class="hover:text-gray-300 transition-colors duration-300 font-medium-wide">About</a>
                 <a href="#portfolio" class="hover:text-gray-300 transition-colors duration-300 font-medium-wide">Portfolio</a>
             </div>
@@ -231,7 +251,7 @@
 
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="fixed inset-0 z-40 flex flex-col items-center justify-center space-y-8 text-3xl font-bold liquid-glass opacity-0 pointer-events-none transition-opacity duration-300">
-        <a href="#services" class="mobile-link">Services</a>
+        <a href="#skills" class="mobile-link">Skills</a>
         <a href="#about" class="mobile-link">About</a>
         <a href="#portfolio" class="mobile-link">Portfolio</a>
         <a href="#contact" class="mobile-link">Contact</a>
@@ -241,7 +261,7 @@
     <section id="home" class="relative h-screen flex items-center overflow-hidden">
         <div class="hero-video-container">
             <video id="hero-video" autoplay loop muted playsinline class="hero-background-video" poster="https://placehold.co/1920x1080/000000/ffffff?text=Loading+Video...">
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-liquid-bubbles-in-blue-and-purple-4025-large.mp4" type="video/mp4">
+                <source src="assets/video/herovid.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
@@ -254,44 +274,44 @@
 
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
 
-        <!-- My Services Section -->
-        <section id="services" class="py-20 lg:py-32">
+        <!-- My Skills Section -->
+        <section id="skills" class="py-20 lg:py-32">
             <div class="max-w-5xl text-left">
-                <h2 class="text-4xl md:text-5xl font-wide mb-4">My Services</h2>
+                <h2 class="text-4xl md:text-5xl font-wide mb-4">My Skills</h2>
                 <p class="text-lg md:text-xl text-gray-400 mb-16 max-w-3xl">Crafting innovative solutions from concept to creation. I blend aesthetic form with practical function to deliver exceptional results.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Service 1 -->
+                <!-- Skill 1 -->
                 <div class="p-8 rounded-3xl liquid-glass text-left flex flex-col items-start">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/><path d="m12 20 4-4"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><path d="M12 20h9"/><path d="M4 20h4"/><path d="M4 12h16"/><path d="M12 4h9"/><path d="M4 4h4"/><path d="m16 4-3 8 3 8"/><path d="m8 4-3 8 3 8"/></svg>
                     <h3 class="text-2xl font-semibold-wide mb-4">Industrial Design</h3>
                     <p class="text-gray-300 font-medium-wide">Developing tangible products that are both beautiful and user-centric, from initial sketches to final production-ready designs.</p>
                 </div>
-                <!-- Service 2 -->
+                <!-- Skill 2 -->
                 <div class="p-8 rounded-3xl liquid-glass text-left flex flex-col items-start">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/></svg>
                     <h3 class="text-2xl font-semibold-wide mb-4">3D Modeling</h3>
                     <p class="text-gray-300 font-medium-wide">Creating photorealistic renderings and animations that bring ideas to life for marketing, prototyping, and presentations.</p>
                 </div>
-                <!-- Service 3 -->
+                <!-- Skill 3 -->
                 <div class="p-8 rounded-3xl liquid-glass text-left flex flex-col items-start">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3-3 3 3"/></svg>
                     <h3 class="text-2xl font-semibold-wide mb-4">Prototyping</h3>
                     <p class="text-gray-300 font-medium-wide">Transforming concepts into physical and digital prototypes to test, refine, and validate design directions effectively.</p>
                 </div>
-                <!-- Service 4 -->
+                <!-- Skill 4 -->
                 <div class="p-8 rounded-3xl liquid-glass text-left flex flex-col items-start">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><path d="M12 12s-4-2-8-2-8 2-8 2 4 2 8 2 8-2 8-2z"/><path d="M12 12v8s-4 2-8 2-8-2-8-2 4-2 8-2 8 2 8 2z"/><path d="M12 4s-4 2-8 2-8-2-8-2 4-2 8-2 8 2 8 2z"/></svg>
                     <h3 class="text-2xl font-semibold-wide mb-4">Brand Identity</h3>
                     <p class="text-gray-300 font-medium-wide">Designing memorable logos, color palettes, and guidelines that create a cohesive and impactful brand presence.</p>
                 </div>
-                <!-- Service 5 -->
+                <!-- Skill 5 -->
                 <div class="p-8 rounded-3xl liquid-glass text-left flex flex-col items-start">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><path d="M2.5 12a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M8.5 12a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M14.5 12a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M20.5 12a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M2.5 18a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M8.5 18a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M14.5 18a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M20.5 18a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M2.5 6a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M8.5 6a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M14.5 6a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/><path d="M20.5 6a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3z"/></svg>
                     <h3 class="text-2xl font-semibold-wide mb-4">Motion Graphics</h3>
                     <p class="text-gray-300 font-medium-wide">Creating engaging 2D and 3D animations for explainers, advertisements, and digital content that capture attention.</p>
                 </div>
-                <!-- Service 6 -->
+                <!-- Skill 6 -->
                 <div class="p-8 rounded-3xl liquid-glass text-left flex flex-col items-start">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
                     <h3 class="text-2xl font-semibold-wide mb-4">Video Editing</h3>
@@ -334,8 +354,8 @@
                 <div class="swiper-wrapper">
                     <!-- Project 1 (Image) -->
                     <div class="swiper-slide">
-                        <a href="https://placehold.co/1200x1600/333333/ffffff?text=Project+One+Image" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass h-full">
-                            <img src="https://placehold.co/600x800/333333/ffffff?text=Project+One" alt="Project One" class="w-full h-full object-cover">
+                        <a href="assets/portfolio/BROU - Plansza.png" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
+                            <img src="assets/portfolio/BROU - Plansza.png" alt="Project One" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                             </div>
@@ -347,7 +367,7 @@
                     </div>
                     <!-- Project 2 (PDF) -->
                     <div class="swiper-slide">
-                        <a href="path/to/your/project2.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass h-full">
+                        <a href="path/to/your/project2.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
                             <img src="https://placehold.co/600x800/444444/ffffff?text=Project+Two" alt="Project Two" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
@@ -360,13 +380,13 @@
                     </div>
                     <!-- Project 3 (Video) -->
                     <div class="swiper-slide video-slide">
-                        <div class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass w-full h-full">
-                           <iframe class="w-full h-full" src="https://www.youtube.com/embed/nGfmjw1HIMA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
+                           <iframe class="rounded-3xl" src="https://www.youtube.com/embed/nGfmjw1HIMA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
                     </div>
                      <!-- Project 4 (PDF) -->
                     <div class="swiper-slide">
-                        <a href="path/to/your/project4.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass h-full">
+                        <a href="path/to/your/project4.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
                             <img src="https://placehold.co/600x800/666666/ffffff?text=Project+Four" alt="Project Four" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
@@ -379,7 +399,7 @@
                     </div>
                      <!-- Project 5 (Image) -->
                     <div class="swiper-slide">
-                        <a href="https://placehold.co/1200x1600/777777/ffffff?text=Project+Five+Image" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass h-full">
+                        <a href="https://placehold.co/1200x1600/777777/ffffff?text=Project+Five+Image" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
                             <img src="https://placehold.co/600x800/777777/ffffff?text=Project+Five" alt="Project Five" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
@@ -541,16 +561,14 @@
                 grabCursor: true,
                 centeredSlides: true,
                 slidesPerView: 'auto',
-                loop: true,
+                rewind: true, 
+                initialSlide: 2, // Start on the third slide (index 2)
+                speed: 600,
+                spaceBetween: 40, 
                 navigation: {
                     nextEl: '.swiper-button-next',
                     prevEl: '.swiper-button-prev',
                 },
-                breakpoints: {
-                    320: { slidesPerView: 1, spaceBetween: 20 },
-                    640: { slidesPerView: 2, spaceBetween: 30 },
-                    1024: { slidesPerView: 3, spaceBetween: 50 }
-                }
             });
 
             // Typed.js Initialization
