@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Szymon Hruszka - Industrial Designer & 3D Generalist</title>
+    <title>Szymon Hruszka - Projektant Przemysłowy & Grafik 3D</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
     
@@ -13,53 +13,32 @@
     
     <style>
         body {
-            /* Changed font-family to Host Grotesk as specified */
             font-family: 'Host Grotesk', sans-serif;
-            color: #1f2937; /* Dark Gray text */
-            background-color: #f9fafb; /* Off-white background */
+            color: #1f2937;
+            background-color: #f9fafb;
             position: relative;
             overflow-x: hidden;
         }
-
-        /* Background effect using a pseudo-element */
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: 
-                /* Splotch 1: Purple */
                 radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 30%),
-                /* Splotch 2: Pink */
                 radial-gradient(circle at 80% 30%, rgba(219, 39, 119, 0.1) 0%, transparent 30%),
-                /* Splotch 3: Blue */
                 radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 30%),
-                /* Splotch 4: Orange */
                 radial-gradient(circle at 75% 75%, rgba(249, 115, 22, 0.1) 0%, transparent 25%);
-            
-            filter: blur(80px); /* Heavy blur to make them soft splotches */
-            z-index: -1; /* Place it behind all content */
-            
-            /* Animation for slow, organic movement */
+            filter: blur(80px);
+            z-index: -1;
             animation: moveSplotches 40s alternate infinite;
         }
-
         @keyframes moveSplotches {
-            from {
-                transform: translate(-10%, -10%) rotate(0deg);
-            }
-            to {
-                transform: translate(10%, 10%) rotate(360deg);
-            }
+            from { transform: translate(-10%, -10%) rotate(0deg); }
+            to { transform: translate(10%, 10%) rotate(360deg); }
         }
-
-        /* Inverted "liquid-glass" for light theme (frosted glass) */
         .liquid-glass {
             background-color: rgba(255, 255, 255, 0.6);
-            background-image: 
-                linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 60%);
+            background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 60%);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(0, 0, 0, 0.1);
@@ -67,271 +46,202 @@
             transition: all 0.3s ease;
         }
         .hero-video-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-        .hero-video-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* Removed the white overlay */
-            background: none; 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: -1;
         }
         .hero-background-video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: translate(-50%, -50%);
-            pointer-events: none; /* Makes the video unclickable */
+            position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; object-fit: cover; transform: translate(-50%, -50%); pointer-events: none;
         }
-
         .font-extrawide { font-weight: 800; }
         .font-wide { font-weight: 700; }
         .font-semibold-wide { font-weight: 600; }
         .font-medium-wide { font-weight: 500; }
-        
-        .portfolio-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-position 0.4s ease;
+        .portfolio-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .portfolio-card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        .portfolio-card .overlay-icon { transition: opacity 0.3s ease; opacity: 0; }
+        .portfolio-card:hover .overlay-icon { opacity: 1; }
+        .skill-card-bg { transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .skill-card:hover .skill-card-bg { transform: scale(1.05); }
+        #pdf-modal-container.is-visible { opacity: 1; pointer-events: auto; }
+        #pdf-modal-container.is-visible #pdf-modal-content { transform: scale(1); opacity: 1; }
+        .lang-en-body [lang="pl"], .lang-pl-body [lang="en"] {
+            display: none;
         }
-        .portfolio-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-        .portfolio-card .pdf-icon {
-            transition: opacity 0.3s ease;
-            opacity: 0;
-        }
-        .portfolio-card:hover .pdf-icon {
-            opacity: 1;
-        }
-        .portfolio-card .card-content {
-            background: rgba(0, 0, 0, 0.5);
-            transition: background 0.3s ease;
-            color: #fff; /* Ensure text on overlay is white */
-        }
-        .portfolio-card:hover .card-content {
-            background: rgba(0, 0, 0, 0.7);
-        }
-        
-        /* New styles for animated skill cards */
-        .skill-card-bg {
-            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .skill-card:hover .skill-card-bg {
-            transform: scale(1.05);
-        }
-
-        /* Styles for the PDF Modal */
-        #pdf-modal-container.is-visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        #pdf-modal-container.is-visible #pdf-modal-content {
-            transform: scale(1);
-            opacity: 1;
-        }
+        .lang-switch-btn { cursor: pointer; transition: color 0.2s; }
+        .lang-switch-btn.active { font-weight: 700; color: #1f2937; }
+        .lang-switch-btn:not(.active) { color: #6b7280; }
     </style>
 </head>
-<body>
+<body class="lang-pl-body">
 
     <header class="fixed top-0 left-0 right-0 z-50 p-4">
         <nav class="container mx-auto flex justify-between items-center p-4 rounded-2xl liquid-glass">
             <a href="#" class="text-2xl font-extrawide tracking-wider">SH</a>
             <div class="hidden md:flex items-center space-x-8">
-                <a href="#skills" class="hover:text-gray-600 transition-colors duration-300 font-medium-wide">Skills</a>
-                <a href="#portfolio" class="hover:text-gray-600 transition-colors duration-300 font-medium-wide">Portfolio</a>
-                <a href="#about" class="hover:text-gray-600 transition-colors duration-300 font-medium-wide">About</a>
+                <a href="#skills" class="hover:text-gray-600 transition-colors duration-300 font-medium-wide">
+                    <span lang="en">Skills</span><span lang="pl">Kompetencje</span>
+                </a>
+                <a href="#portfolio" class="hover:text-gray-600 transition-colors duration-300 font-medium-wide">
+                    <span lang="en">Portfolio</span><span lang="pl">Portfolio</span>
+                </a>
+                <a href="#about" class="hover:text-gray-600 transition-colors duration-300 font-medium-wide">
+                    <span lang="en">About</span><span lang="pl">O mnie</span>
+                </a>
+                <div class="text-sm font-medium-wide ml-4">
+                    <span id="lang-en" class="lang-switch-btn">EN</span>
+                    <span class="text-gray-300">|</span>
+                    <span id="lang-pl" class="lang-switch-btn active">PL</span>
+                </div>
             </div>
-            <a href="#contact" class="hidden md:block bg-gray-900 text-white px-6 py-2 rounded-full font-semibold-wide hover:bg-gray-700 transition-colors duration-300">Contact</a>
+            <a href="#contact" class="hidden md:block bg-gray-900 text-white px-6 py-2 rounded-full font-semibold-wide hover:bg-gray-700 transition-colors duration-300">
+                <span lang="en">Contact</span><span lang="pl">Kontakt</span>
+            </a>
             <button id="mobile-menu-button" class="md:hidden z-50">
-                <svg id="menu-open-icon" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                <svg id="menu-open-icon" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
                 <svg id="menu-close-icon" class="w-8 h-8 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </nav>
     </header>
 
     <div id="mobile-menu" class="fixed inset-0 z-40 flex flex-col items-center justify-center space-y-8 text-3xl font-bold liquid-glass opacity-0 pointer-events-none transition-opacity duration-300">
-        <a href="#skills" class="mobile-link">Skills</a>
-        <a href="#portfolio" class="mobile-link">Portfolio</a>
-        <a href="#about" class="mobile-link">About</a>
-        <a href="#contact" class="mobile-link">Contact</a>
+        <a href="#skills" class="mobile-link"><span lang="en">Skills</span><span lang="pl">Kompetencje</span></a>
+        <a href="#portfolio" class="mobile-link"><span lang="en">Portfolio</span><span lang="pl">Portfolio</span></a>
+        <a href="#about" class="mobile-link"><span lang="en">About</span><span lang="pl">O mnie</span></a>
+        <a href="#contact" class="mobile-link"><span lang="en">Contact</span><span lang="pl">Kontakt</span></a>
+         <div class="text-2xl font-medium-wide mt-12">
+            <span id="mobile-lang-en" class="lang-switch-btn">EN</span>
+            <span class="text-gray-400">|</span>
+            <span id="mobile-lang-pl" class="lang-switch-btn active">PL</span>
+        </div>
     </div>
 
     <section id="home" class="relative h-screen flex items-center overflow-hidden">
         <div class="hero-video-container">
             <video id="hero-video" autoplay loop muted playsinline class="hero-background-video" poster="https://placehold.co/1920x1080/000000/ffffff?text=Loading+Video...">
                 <source src="assets/video/herovid.mp4" type="video/mp4">
-                Your browser does not support the video tag.
+                <span lang="en">Your browser does not support the video tag.</span>
+                <span lang="pl">Twoja przeglądarka nie obsługuje tagu wideo.</span>
             </video>
         </div>
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
              <div class="z-10 max-w-4xl text-left">
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-wide tracking-tight text-white" style="text-shadow: 0 4px 25px rgba(0,0,0,0.5)">I will <span id="typed-text"></span></h1>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-wide tracking-tight text-white" style="text-shadow: 0 4px 25px rgba(0,0,0,0.5)">
+                    <span lang="en">I will </span><span lang="pl"></span>
+                    <span id="typed-text"></span>
+                </h1>
             </div>
         </div>
     </section>
 
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-
         <section id="skills" class="py-20 lg:py-32">
             <div class="max-w-5xl text-left mb-16">
-                <h2 class="text-4xl md:text-5xl font-wide mb-4 text-gray-900">What I Do</h2>
-                <p class="text-lg md:text-xl text-gray-600 max-w-3xl">I bring ideas to life—from the first sketch to a fully realized product, animation, or space. My work blends creative design and technical know-how, covering everything you see below.</p>
+                <h2 class="text-4xl md:text-5xl font-wide mb-4 text-gray-900">
+                    <span lang="en">What I Do</span><span lang="pl">Moje specjalizacje</span>
+                </h2>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl">
+                    <span lang="en">I bring ideas to life—from the first sketch to a fully realized product, animation, or space. My work blends creative design and technical know-how, covering everything you see below.</span>
+                    <span lang="pl">Przekuwam idee w rzeczywistość – od pierwszej kreski na szkicu, aż po gotowy produkt, animację czy przestrzeń. W mojej pracy łączę kreatywność z precyzją techniczną, oferując kompleksowe usługi w poniższych obszarach.</span>
+                </p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
                 <div class="skill-card rounded-3xl relative overflow-hidden shadow-xl p-8 flex flex-col text-left group">
                     <div class="skill-card-bg absolute inset-0 bg-gradient-to-br from-violet-600 to-indigo-800"></div>
                     <div class="relative z-10">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.998 15.998 0 011.622-3.385m5.043.025a15.998 15.998 0 001.622-3.385m3.388 1.62a15.998 15.998 0 01-3.388-1.62m-1.622-3.385a15.998 15.998 0 013.388-1.622m0 0a4.5 4.5 0 10-6.364 6.364l6.364-6.364z" />
-                        </svg>
-                        <h3 class="text-2xl font-wide mb-2 text-white">Industrial & Product Design</h3>
-                        <p class="text-white/80 font-medium-wide">I design physical products people love to use. My process covers everything from the big idea and initial sketches to detailed 3D models ready for manufacturing.</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white mb-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" /></svg>
+                        <h3 class="text-2xl font-wide mb-2 text-white"><span lang="en">Industrial & Product Design</span><span lang="pl">Wzornictwo i Projektowanie Produktu</span></h3>
+                        <p class="text-white/80 font-medium-wide"><span lang="en">I design physical products people love to use. My process covers everything from the big idea and initial sketches to detailed 3D models ready for manufacturing.</span><span lang="pl">Realizuję kompleksowy proces projektowy: od analizy i szkiców, przez modelowanie 3D, po przygotowanie dokumentacji technicznej. Kluczowe jest dla mnie połączenie estetyki z ergonomią i technologią wykonania.</span></p>
                     </div>
                 </div>
-
                 <div class="skill-card rounded-3xl relative overflow-hidden shadow-xl p-8 flex flex-col text-left group">
                     <div class="skill-card-bg absolute inset-0 bg-gradient-to-br from-sky-500 to-blue-700"></div>
                     <div class="relative z-10">
-                       <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
-                        </svg>
-                        <h3 class="text-2xl font-wide mb-2 text-white">3D Visualization & Motion Graphics</h3>
-                        <p class="text-white/80 font-medium-wide">I turn digital models into stunning, photorealistic images and captivating animations—perfect for showcasing a product before it even exists.</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white mb-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5a2.25 2.25 0 0 1-2.25 2.25H15a3 3 0 0 1-3-3V4.5A2.25 2.25 0 0 1 14.25 2.25l1.5-1.5a2.25 2.25 0 0 1 3.182 0l2.25 2.25a2.25 2.25 0 0 1 0 3.182l-1.5 1.5M21 7.5V18a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18V6a2.25 2.25 0 0 1 2.25-2.25h1.5M12 9.75a3 3 0 0 0-3 3v.001" /></svg>
+                        <h3 class="text-2xl font-wide mb-2 text-white"><span lang="en">3D Visualization & Motion Graphics</span><span lang="pl">Wizualizacje 3D i Animacja</span></h3>
+                        <p class="text-white/80 font-medium-wide"><span lang="en">I turn digital models into stunning, photorealistic images and captivating animations—perfect for showcasing a product before it even exists.</span><span lang="pl">Tworzę fotorealistyczne wizualizacje oraz animacje produktowe, które skutecznie komunikują wizję i wspierają działania marketingowe. Umożliwiam prezentację produktu jeszcze przed rozpoczęciem produkcji.</span></p>
                     </div>
                 </div>
-                
                 <div class="skill-card rounded-3xl relative overflow-hidden shadow-xl p-8 flex flex-col text-left group">
                     <div class="skill-card-bg absolute inset-0 bg-gradient-to-br from-rose-500 to-pink-700"></div>
                     <div class="relative z-10">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                        </svg>
-                        <h3 class="text-2xl font-wide mb-2 text-white">Interior & Architectural Design</h3>
-                        <p class="text-white/80 font-medium-wide">I design and visualize interior spaces. Whether it's a home or commercial area, I create detailed 3D walkthroughs that make you feel like you're already there.</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white mb-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>
+                        <h3 class="text-2xl font-wide mb-2 text-white"><span lang="en">Interior & Architectural Design</span><span lang="pl">Projektowanie Wnętrz i Architektura</span></h3>
+                        <p class="text-white/80 font-medium-wide"><span lang="en">I design and visualize interior spaces. Whether it's a home or commercial area, I create detailed 3D walkthroughs that make you feel like you're already there.</span><span lang="pl">Projektuję funkcjonalne i estetyczne wnętrza, prywatne i komercyjne. Opracowuję szczegółowe wizualizacje i wirtualne spacery 3D, które precyzyjnie oddają finalny wygląd projektowanej przestrzeni.</span></p>
                     </div>
                 </div>
-
                 <div class="skill-card rounded-3xl relative overflow-hidden shadow-xl p-8 flex flex-col text-left group">
                     <div class="skill-card-bg absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-600"></div>
                     <div class="relative z-10">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
-                        </svg>
-                        <h3 class="text-2xl font-wide mb-2 text-white">Graphic & Web Design</h3>
-                        <p class="text-white/80 font-medium-wide">Your brand's story, told through visuals. I design memorable logos, create striking graphics, and build clean, modern websites.</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white mb-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
+                        <h3 class="text-2xl font-wide mb-2 text-white"><span lang="en">Graphic & Web Design</span><span lang="pl">Branding i Strony WWW</span></h3>
+                        <p class="text-white/80 font-medium-wide"><span lang="en">Your brand's story, told through visuals. I design memorable logos, create striking graphics, and build clean, modern websites.</span><span lang="pl">Opracowuję spójne systemy identyfikacji wizualnej, od projektu logo po materiały firmowe. Projektuję również nowoczesne, responsywne strony internetowe, dbając o ich użyteczność (UI/UX).</span></p>
                     </div>
                 </div>
-
                 <div class="skill-card rounded-3xl relative overflow-hidden shadow-xl p-8 flex flex-col text-left group">
                     <div class="skill-card-bg absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-700"></div>
                     <div class="relative z-10">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l15 0" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75a4.125 4.125 0 01-1.551-7.953.75.75 0 01-.448-1.282A7.5 7.5 0 018.64 3.16a.75.75 0 01.606.448 4.125 4.125 0 01-1.55 7.953.75.75 0 01-1.283-.448zM19.5 12.75l-15 0" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12.75a4.125 4.125 0 001.551-7.953.75.75 0 00.448-1.282A7.5 7.5 0 0015.36 3.16a.75.75 0 00-.606.448 4.125 4.125 0 001.55 7.953.75.75 0 001.283-.448z" />
-                        </svg>
-                        <h3 class="text-2xl font-wide mb-2 text-white">Video Production</h3>
-                        <p class="text-white/80 font-medium-wide">I take raw footage and transform it into a polished, compelling story. My work includes editing, color grading, and adding motion graphics.</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white mb-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));"><path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9A2.25 2.25 0 0 0 4.5 18.75Z" /></svg>
+                        <h3 class="text-2xl font-wide mb-2 text-white"><span lang="en">Video Production</span><span lang="pl">Produkcja Wideo</span></h3>
+                        <p class="text-white/80 font-medium-wide"><span lang="en">I take raw footage and transform it into a polished, compelling story. My work includes editing, color grading, and adding motion graphics.</span><span lang="pl">Zajmuję się kompleksową postprodukcją materiałów wideo. Moje usługi obejmują montaż, obróbkę dźwięku oraz tworzenie motion graphics.</span></p>
                     </div>
                 </div>
-
                 <div class="skill-card rounded-3xl relative overflow-hidden shadow-xl p-8 flex flex-col text-left group">
                     <div class="skill-card-bg absolute inset-0 bg-gradient-to-br from-slate-600 to-gray-800"></div>
                     <div class="relative z-10">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3.75H6.912a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H15M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859M12 3v8.25m0 0l-3-3m3 3l3-3" />
-                        </svg>
-                        <h3 class="text-2xl font-wide mb-2 text-white">Prototyping & Fabrication</h3>
-                        <p class="text-white/80 font-medium-wide">Ideas need to be tested. I create physical prototypes from my digital designs, using 3D printing to quickly test, refine, and perfect the final product.</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white mb-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 1.063a2.25 2.25 0 0 1-1.95 1.438H5.25a2.25 2.25 0 0 1-1.95-1.438L2.75 7.5M12 18.75v-1.5M12 14.25v-1.5" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a.375.375 0 1 0 0-.75.375.375 0 0 0 0 .75Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25v-1.5M12 12.75V3.75A2.25 2.25 0 0 1 14.25 1.5h1.5a2.25 2.25 0 0 1 2.25 2.25v1.5A2.25 2.25 0 0 1 15.75 7.5h-1.5a2.25 2.25 0 0 0-2.25 2.25v1.5" /></svg>
+                        <h3 class="text-2xl font-wide mb-2 text-white"><span lang="en">Prototyping & Fabrication</span><span lang="pl">Prototypowanie i Druk 3D</span></h3>
+                        <p class="text-white/80 font-medium-wide"><span lang="en">Ideas need to be tested. I create physical prototypes from my digital designs, using 3D printing to quickly test, refine, and perfect the final product.</span><span lang="pl">Wykorzystuję technologię druku 3D do szybkiego prototypowania (rapid prototyping). Tworzenie fizycznych modeli pozwala na wczesną weryfikację założeń projektowych, testowanie ergonomii i optymalizację produktu.</span></p>
                     </div>
                 </div>
-
             </div>
         </section>
-
     </div>
 
     <section id="portfolio" class="py-20 lg:py-32">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-5xl text-left">
                 <h2 class="text-4xl md:text-5xl font-wide mb-4 text-gray-900">Portfolio</h2>
-                <p class="text-lg md:text-xl text-gray-600 mb-16 max-w-3xl">A selection of projects that showcase my dedication to quality, creativity, and problem-solving. Click to view the detailed PDF case study.</p>
+                <p class="text-lg md:text-xl text-gray-600 mb-16 max-w-3xl">
+                    <span lang="en">A selection of projects that showcase my dedication to quality, creativity, and problem-solving. Click to view the detailed PDF case study.</span>
+                    <span lang="pl">Wybrane realizacje, które najlepiej oddają moje podejście do projektowania – połączenie kreatywności, dbałości o detal i skutecznego rozwiązywania problemów. Kliknij w projekt, aby poznać jego historię.</span>
+                </p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-4 auto-rows-[350px] gap-6">
                 
-                <a href="assets/portfolio/brou.png" class="md:col-span-2 md:row-span-2 relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
-                    <img src="assets/portfolio/brou.png" alt="Project One" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                    </div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6 card-content">
-                        <h3 class="text-xl font-semibold-wide">Brou</h3>
-                        <p class="text-sm text-gray-200 font-medium-wide">Industrial Design</p>
-                    </div>
+                <a href="assets/portfolio/brou.png" class="md:col-span-2 relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
+                    <img src="assets/portfolio/brou.png" alt="Project Brou" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center overlay-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-16 w-16 text-white"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg></div>
                 </a>
 
-                <div class="md:col-span-2 relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
-                   <iframe class="w-full h-full" src="https://www.youtube.com/embed/nGfmjw1HIMA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="md:col-span-2 relative block rounded-3xl overflow-hidden portfolio-card liquid-glass w-full">
+                   <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/nGfmjw1HIMA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
 
                 <a href="assets/portfolio/barka.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
-                    <img src="assets/portfolio/barka.png" alt="Project Two" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                    </div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6 card-content">
-                        <h3 class="text-xl font-semibold-wide">Projekt Barki Ella</h3>
-                        <p class="text-sm text-gray-200 font-medium-wide">Interior Design</p>
-                    </div>
+                    <img src="assets/portfolio/barka.png" alt="Project Barki Ella" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center overlay-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-white"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg></div>
                 </a>
-
                 <a href="assets/portfolio/immobile.pdf" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
-                    <img src="assets/portfolio/immobile.png" alt="Project Four" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                    </div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6 card-content">
-                        <h3 class="text-xl font-semibold-wide">Project Title Four</h3>
-                        <p class="text-sm text-gray-200 font-medium-wide">Concept Vehicle</p>
-                    </div>
+                    <img src="assets/portfolio/immobile.png" alt="Project Immobile" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center overlay-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-white"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg></div>
                 </a>
-
                 <a href="assets/portfolio/loftyfarbiarnia.pdf" class="md:col-span-2 relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
-                    <img src="assets/portfolio/loftyfarbiarnia.png" alt="Project Five" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                    </div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6 card-content">
-                        <h3 class="text-xl font-semibold-wide">Project Title Five</h3>
-                        <p class="text-sm text-gray-200 font-medium-wide">Brand Identity Case Study</p>
-                    </div>
+                    <img src="assets/portfolio/loftyfarbiarnia.png" alt="Project Lofty Farbiarnia" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center overlay-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-white"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg></div>
                 </a>
-
                 <a href="assets/portfolio/lunchflip.png" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
-                    <img src="assets/portfolio/lunchflip.png" alt="Project Six" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center pdf-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                    </div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6 card-content">
-                        <h3 class="text-xl font-semibold-wide">Project Title Six</h3>
-                        <p class="text-sm text-gray-200 font-medium-wide">Motion Graphics Reel</p>
-                    </div>
+                    <img src="assets/portfolio/lunchflip.png" alt="Project Lunchflip" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center overlay-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-16 w-16 text-white"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg></div>
+                </a>
+                <a href="#" class="md:col-span-2 relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
+                    <img src="assets/portfolio/ollie.png" alt="Nowy Projekt 7" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center overlay-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-white"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg></div>
+                </a>
+                <a href="#" class="relative block rounded-3xl overflow-hidden portfolio-card liquid-glass">
+                    <img src="assets/portfolio/siaday.png" alt="Nowy Projekt 8" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center overlay-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-white"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg></div>
+                </a>
                 </a>
             </div>
         </div>
@@ -341,15 +251,17 @@
         <section id="about" class="py-20 lg:py-32">
             <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
                 <div class="md:w-1/2">
-                    <img src="https://placehold.co/600x600/1a1a1a/ffffff?text=Szymon+Hruszka" alt="Szymon Hruszka" class="rounded-3xl w-full h-auto object-cover">
+                    <img src="assets/szymi/szymi2.png" alt="Szymon Hruszka" class="rounded-3xl w-full h-auto object-cover">
                 </div>
                 <div class="md:w-1/2">
-                    <h2 class="text-4xl md:text-5xl font-wide mb-6 text-gray-900">About Me</h2>
+                    <h2 class="text-4xl md:text-5xl font-wide mb-6 text-gray-900"><span lang="en">About Me</span><span lang="pl">Kilka słów o mnie</span></h2>
                     <p class="text-lg text-gray-700 mb-4 font-medium-wide">
-                        I'm Szymon Hruszka, a passionate designer with a keen eye for detail and a drive for innovation. My work is a fusion of art and engineering, where I strive to create products that not only look stunning but also provide meaningful experiences.
+                        <span lang="en">I'm Szymon Hruszka, a passionate designer with a keen eye for detail and a drive for innovation. My work is a fusion of art and engineering, where I strive to create products that not only look stunning but also provide meaningful experiences.</span>
+                        <span lang="pl">Nazywam się Szymon Hruszka. Jestem projektantem, dla którego design to pasja i sposób na rozwiązywanie problemów. W swojej pracy łączę wrażliwość artystyczną z myśleniem inżynierskim, tworząc rozwiązania, które są nie tylko estetyczne, ale przede wszystkim funkcjonalne.</span>
                     </p>
                     <p class="text-lg text-gray-700 font-medium-wide">
-                        With a background in both industrial design and 3D visualization, I possess a comprehensive skill set that covers the entire design process. I thrive on complex challenges and am dedicated to pushing the boundaries of what's possible in design and technology.
+                        <span lang="en">With a background in both industrial design and 3D visualization, I possess a comprehensive skill set that covers the entire design process. I thrive on complex challenges and am dedicated to pushing the boundaries of what's possible in design and technology.</span>
+                        <span lang="pl">Doświadczenie w projektowaniu przemysłowym i wizualizacjach 3D pozwala mi kompleksowo prowadzić projekty – od pierwszej koncepcji po finalny produkt. Czerpię satysfakcję ze złożonych wyzwań i nieustannie poszukuję nowych możliwości na styku wzornictwa i technologii.</span>
                     </p>
                 </div>
             </div>
@@ -359,25 +271,16 @@
     <section id="contact" class="py-20 lg:py-32">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-3xl text-left">
-                <h2 class="text-4xl md:text-5xl font-wide mb-4 text-gray-900">Get In Touch</h2>
-                <p class="text-lg md:text-xl text-gray-600 mb-8">Have a project in mind or just want to say hello? I'd love to hear from you. Feel free to reach out via email or connect with me on social media.</p>
-                
+                <h2 class="text-4xl md:text-5xl font-wide mb-4 text-gray-900"><span lang="en">Get In Touch</span><span lang="pl">Porozmawiajmy</span></h2>
+                <p class="text-lg md:text-xl text-gray-600 mb-8">
+                    <span lang="en">Have a project in mind or just want to say hello? I'd love to hear from you. Feel free to reach out via email or connect with me on social media.</span>
+                    <span lang="pl">Potrzebujesz moich usług? Napisz do mnie maila! Chętnie poznam Twoje potrzeby i odpowiem na wszystkie pytania.</span>
+                </p>
                 <div class="p-8 rounded-3xl liquid-glass inline-block">
                     <a href="mailto:hruszkastudio@gmail.com" class="text-xl md:text-2xl font-semibold-wide text-gray-900 hover:text-gray-600 transition-colors">
                         hruszkastudio@gmail.com
                     </a>
                 </div>
-
-                <div class="mt-12 flex justify-start space-x-6">
-                    <a href="#" target="_blank" class="text-gray-500 hover:text-gray-900 transition-colors">
-                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd"/></svg>
-                    </a>
-                    <a href="#" target="_blank" class="text-gray-500 hover:text-gray-900 transition-colors">
-                         <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.4 6.1h-5.8v1.5h5.8v-1.5zm-5.8 3.8h-2.1v-1.5h2.1v1.5zm2.1 0h-1.5v-1.5h1.5v1.5zm-2.1 2.3h-2.1v-1.5h2.1v1.5zm2.1 0h-1.5v-1.5h1.5v1.5zm-2.1 2.3h-2.1v-1.5h2.1v1.5zm2.1 0h-1.5v-1.5h1.5v1.5zm-10.7-6.1c-2.1 0-3.8 1.7-3.8 3.8s1.7 3.8 3.8 3.8 3.8-1.7 3.8-3.8-1.7-3.8-3.8-3.8zm0 6.1c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zm-1.5-8.6h-5.8v1.5h5.8v-1.5z"/></svg>
-                    </a>
-                    <a href="#" target="_blank" class="text-gray-500 hover:text-gray-900 transition-colors">
-                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.85s.012-3.584.07-4.85c.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.359 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.947s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44c0-.795-.645-1.44-1.441-1.44z"/></svg>
-                    </a>
                 </div>
             </div>
         </div>
@@ -385,128 +288,115 @@
 
     <footer class="border-t border-gray-200 mt-20">
         <div class="container mx-auto text-center py-8">
-            <p class="text-gray-500 font-medium-wide">&copy; 2025 Szymon Hruszka. All Rights Reserved.</p>
+            <p class="text-gray-500 font-medium-wide">&copy; 2025 Szymon Hruszka. <span lang="en">All Rights Reserved.</span><span lang="pl">Wszelkie prawa zastrzeżone.</span></p>
         </div>
     </footer>
 
     <div id="pdf-modal-container" class="fixed inset-0 bg-gray-900 bg-opacity-80 backdrop-blur-sm flex items-center justify-center z-[100] opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out p-4">
         <div id="pdf-modal-content" class="relative w-full h-full max-w-5xl bg-white rounded-lg shadow-2xl transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-in-out">
-            <button id="close-modal-btn" class="absolute -top-3 -right-3 md:top-2 md:right-2 text-gray-700 bg-gray-200 rounded-full p-2 z-10 hover:bg-gray-300 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
+            <button id="close-modal-btn" class="absolute -top-3 -right-3 md:top-2 md:right-2 text-gray-700 bg-gray-200 rounded-full p-2 z-10 hover:bg-gray-300 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
             <iframe id="pdf-viewer" src="" frameborder="0" class="w-full h-full rounded-lg hidden"></iframe>
             <img id="image-viewer" src="" alt="Portfolio Image" class="w-full h-full object-contain hidden">
         </div>
     </div>
 
-
     <script>
-        // Use window.onload to ensure all external scripts are loaded
         window.onload = function() {
-            // Mobile Menu Logic
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             const openIcon = document.getElementById('menu-open-icon');
             const closeIcon = document.getElementById('menu-close-icon');
-            const mobileLinks = document.querySelectorAll('.mobile-link');
-
-            function toggleMenu() {
+            mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('opacity-0');
                 mobileMenu.classList.toggle('pointer-events-none');
                 openIcon.classList.toggle('hidden');
                 closeIcon.classList.toggle('hidden');
-                // Prevent body scroll when menu is open
-                if (!mobileMenu.classList.contains('opacity-0')) {
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    document.body.style.overflow = 'auto';
-                }
-            }
-
-            mobileMenuButton.addEventListener('click', toggleMenu);
-
-            // Close menu when a link is clicked
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', toggleMenu);
+                document.body.style.overflow = mobileMenu.classList.contains('opacity-0') ? 'auto' : 'hidden';
             });
+            document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', () => {
+                if (!mobileMenu.classList.contains('opacity-0')) mobileMenuButton.click();
+            }));
 
-            // Smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
                 });
             });
 
-            // PDF Modal Logic
             const modalContainer = document.getElementById('pdf-modal-container');
             const pdfViewer = document.getElementById('pdf-viewer');
             const imageViewer = document.getElementById('image-viewer');
             const closeModalBtn = document.getElementById('close-modal-btn');
-            const portfolioLinks = document.querySelectorAll('#portfolio a.portfolio-card');
-
-            function openModal(url) {
-                if (!url || url === '#') return;
-
-                if (url.endsWith('.pdf')) {
-                    pdfViewer.src = url;
-                    pdfViewer.classList.remove('hidden');
-                    imageViewer.classList.add('hidden');
-                } else {
-                    imageViewer.src = url;
-                    imageViewer.classList.remove('hidden');
-                    pdfViewer.classList.add('hidden');
-                }
-
-                modalContainer.classList.add('is-visible');
-                document.body.style.overflow = 'hidden';
-            }
-
-            function closeModal() {
-                pdfViewer.src = '';
-                imageViewer.src = '';
-                modalContainer.classList.remove('is-visible');
-                document.body.style.overflow = 'auto';
-            }
-
-            portfolioLinks.forEach(link => {
+            document.querySelectorAll('#portfolio a.portfolio-card').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const url = this.getAttribute('href');
-                    openModal(url);
+                    if (!url || url === '#') return;
+                    if (url.endsWith('.pdf')) {
+                        pdfViewer.src = url;
+                        pdfViewer.classList.remove('hidden');
+                        imageViewer.classList.add('hidden');
+                    } else {
+                        imageViewer.src = url;
+                        imageViewer.classList.remove('hidden');
+                        pdfViewer.classList.add('hidden');
+                    }
+                    modalContainer.classList.add('is-visible');
+                    document.body.style.overflow = 'hidden';
                 });
             });
-
+            const closeModal = () => {
+                modalContainer.classList.remove('is-visible');
+                document.body.style.overflow = 'auto';
+                pdfViewer.src = '';
+                imageViewer.src = '';
+            };
             closeModalBtn.addEventListener('click', closeModal);
             modalContainer.addEventListener('click', (e) => e.target === modalContainer && closeModal());
             document.addEventListener('keydown', (e) => e.key === 'Escape' && modalContainer.classList.contains('is-visible') && closeModal());
-
-            // Typed.js Initialization
-            var typed = new Typed('#typed-text', {
-                strings: [
-                    'design your logo.',
-                    'visualise your product.',
-                    'create your company\'s identity.',
-                    'make your ideas real.',
-                    'edit your video.'
-                ],
-                typeSpeed: 30,
-                backSpeed: 20,
-                backDelay: 1500,
-                loop: true,
-                smartBackspace: true,
-                showCursor: false,
-            });
             
-            // Force hero video to play on iOS
-            const heroVideo = document.getElementById('hero-video');
-            if(heroVideo) {
-                heroVideo.play();
+            let typedInstance;
+            const typedStrings = {
+                en: ['design your logo.', 'visualise your product.', 'create your company\'s identity.', 'make your ideas real.', 'edit your video.'],
+                pl: ['Pomogę Ci przekształcić Twój pomysł w rzeczywistość.', 'Stworzę fotorealistyczne wizualizacje Twojego produktu', 'Zbuduję identyfikację wizualną Twojej firmy.', 'Zaprojektuję funkcjonalną i estetyczną przestrzeń dla Ciebie']
+            };
+
+            function initTyped(lang) {
+                if (typedInstance) typedInstance.destroy();
+                typedInstance = new Typed('#typed-text', {
+                    strings: typedStrings[lang],
+                    typeSpeed: 30, backSpeed: 20, backDelay: 1500,
+                    loop: true, smartBackspace: true, showCursor: false,
+                });
             }
+
+            function setLanguage(lang) {
+                document.documentElement.lang = lang;
+                document.body.className = `lang-${lang}-body`;
+
+                document.querySelectorAll('.lang-switch-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.id.includes(`lang-${lang}`)) {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                initTyped(lang);
+            }
+
+            ['lang-en', 'lang-pl', 'mobile-lang-en', 'mobile-lang-pl'].forEach(id => {
+                document.getElementById(id).addEventListener('click', () => {
+                    const lang = id.includes('en') ? 'en' : 'pl';
+                    setLanguage(lang);
+                });
+            });
+
+            setLanguage('pl'); 
+
+            const heroVideo = document.getElementById('hero-video');
+            if(heroVideo) heroVideo.play().catch(() => {});
         };
     </script>
-
 </body>
 </html>
