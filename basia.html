@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re:post Studio | Postprodukcja Audio</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['IBM Plex Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            purple: '#7c3aed', // Violet-600
+                            pink: '#db2777',   // Pink-600
+                            orange: '#ea580c', // Orange-600
+                            light: '#fff1f2',  // Rose-50
+                            dark: '#0f172a',   // Slate-900
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        /* Base Setup */
+        html {
+            height: 100%;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            background-color: transparent; 
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: #1e293b;
+            overflow-x: hidden;
+            position: relative; 
+        }
+
+        /* --- BACKGROUND SYSTEM --- */
+        
+        #site-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -50; 
+            overflow: hidden;
+            pointer-events: none;
+            background-color: #f8fafc; 
+        }
+
+        /* 
+           Wrapper handles the Scroll Parallax (Translate Y).
+           This separates scroll movement from the internal animation.
+        */
+        .blob-cont {
+            position: absolute;
+            will-change: transform;
+        }
+
+        /* 
+           Inner Blob handles the Look, Morph, and Drift.
+           UPDATED: Higher opacity, less blur for intensity behind glass.
+        */
+        .blob {
+            width: 100%;
+            height: 100%;
+            /* Reduced blur creates stronger "edges" for the glass refraction effect */
+            filter: blur(50px); 
+            opacity: 0.9; 
+            border-radius: 50%;
+            will-change: transform, border-radius;
+        }
+
+        /* Blob Variations - More vivid colors */
+        .blob-purple { background: radial-gradient(circle, rgba(124, 58, 237, 1) 0%, rgba(124, 58, 237, 0) 70%); }
+        .blob-orange { background: radial-gradient(circle, rgba(234, 88, 12, 1) 0%, rgba(234, 88, 12, 0) 70%); }
+        .blob-pink   { background: radial-gradient(circle, rgba(219, 39, 119, 1) 0%, rgba(219, 39, 119, 0) 70%); }
+        .blob-mixed  { background: radial-gradient(circle, rgba(219, 39, 119, 1) 0%, rgba(124, 58, 237, 0) 70%); }
+
+        /* Complex Animations for "Random" Movement */
+        @keyframes morph {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            100% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+        }
+
+        @keyframes float-1 {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(200px, -100px) rotate(20deg) scale(1.2); }
+            66% { transform: translate(-100px, 150px) rotate(-10deg) scale(0.8); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        @keyframes float-2 {
+            0% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(-150px, -150px) scale(1.3); }
+            50% { transform: translate(100px, 80px) scale(0.7); }
+            75% { transform: translate(80px, -50px) scale(1.1); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        @keyframes float-3 {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            40% { transform: translate(250px, 50px) rotate(45deg); }
+            80% { transform: translate(-200px, -100px) rotate(-30deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        /* 3. The Grain Overlay */
+        #grain-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -40;
+            pointer-events: none;
+            opacity: 0.8; 
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+            mix-blend-mode: overlay;
+        }
+
+        /* --- GLASSMORPHISM --- */
+
+        .glass-base {
+            background: rgba(255, 255, 255, 0.55); 
+            backdrop-filter: blur(14px); 
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.45); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px rgba(124, 58, 237, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.65);
+            transform: translateY(-5px);
+            border-color: #fff;
+            box-shadow: 0 15px 40px rgba(124, 58, 237, 0.15);
+        }
+
+        /* UTILITIES */
+        .section-padding { padding-top: 6rem; padding-bottom: 6rem; }
+        .text-gradient {
+            background: linear-gradient(135deg, #ea580c 0%, #db2777 50%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        #hero-canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="antialiased selection:bg-brand-pink selection:text-white">
+
+    <!-- BACKGROUND SYSTEM -->
+    <div id="site-background">
+        <!-- 
+           Blobs with intensified randomness.
+           Each blob has a unique mix of float animations, durations, and delays.
+        -->
+        
+        <!-- Section 1 Area -->
+        <div class="blob-cont" data-parallax="0.6" style="top: 110vh; left: -10%; width: 900px; height: 900px;">
+            <div class="blob blob-purple" style="animation: morph 12s infinite alternate, float-1 25s infinite ease-in-out;"></div>
+        </div>
+        <div class="blob-cont" data-parallax="0.4" style="top: 130vh; right: -20%; width: 1100px; height: 1100px;">
+            <div class="blob blob-orange" style="animation: morph 15s infinite alternate-reverse, float-2 30s infinite ease-in-out -5s;"></div>
+        </div>
+        
+        <!-- Section 2 Area -->
+        <div class="blob-cont" data-parallax="0.7" style="top: 220vh; left: 20%; width: 800px; height: 800px;">
+            <div class="blob blob-mixed" style="animation: morph 10s infinite alternate, float-3 28s infinite ease-in-out -10s;"></div>
+        </div>
+        <div class="blob-cont" data-parallax="0.5" style="top: 250vh; left: -15%; width: 1000px; height: 1000px;">
+            <div class="blob blob-pink" style="animation: morph 14s infinite alternate-reverse, float-1 35s infinite ease-in-out -2s;"></div>
+        </div>
+
+        <!-- Section 3 Area -->
+        <div class="blob-cont" data-parallax="0.6" style="top: 320vh; right: 5%; width: 950px; height: 950px;">
+            <div class="blob blob-purple" style="animation: morph 16s infinite alternate, float-2 32s infinite ease-in-out -15s;"></div>
+        </div>
+        <div class="blob-cont" data-parallax="0.4" style="top: 360vh; left: -5%; width: 1200px; height: 1200px;">
+            <div class="blob blob-orange" style="animation: morph 13s infinite alternate-reverse, float-3 40s infinite ease-in-out -8s;"></div>
+        </div>
+
+        <!-- Section 4 Area -->
+        <div class="blob-cont" data-parallax="0.8" style="top: 420vh; right: -10%; width: 1100px; height: 1100px;">
+            <div class="blob blob-mixed" style="animation: morph 11s infinite alternate, float-1 27s infinite ease-in-out -12s;"></div>
+        </div>
+        <div class="blob-cont" data-parallax="0.5" style="top: 460vh; left: 15%; width: 900px; height: 900px;">
+            <div class="blob blob-purple" style="animation: morph 17s infinite alternate-reverse, float-2 33s infinite ease-in-out -4s;"></div>
+        </div>
+    </div>
+    
+    <!-- GRAIN LAYER -->
+    <div id="grain-layer"></div>
+
+    <!-- MAIN CONTENT -->
+    <div class="relative z-10">
+
+        <!-- Navigation (Updated: Full Width, Rectangular, Extra Glassy) -->
+        <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-white/40 bg-white/30 backdrop-blur-2xl shadow-sm">
+            <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold tracking-tight text-slate-800">
+                    re:<span class="text-brand-pink">post</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-10 text-sm font-semibold text-slate-700">
+                    <a href="#o-mnie" class="hover:text-brand-pink transition-colors">O MNIE</a>
+                    <a href="#oferta" class="hover:text-brand-pink transition-colors">OFERTA</a>
+                    <a href="#jak-pracujemy" class="hover:text-brand-pink transition-colors">JAK PRACUJEMY</a>
+                    <a href="#kontakt" class="hover:text-brand-pink transition-colors">KONTAKT</a>
+                </div>
+
+                <!-- Glassmorphic Gradient Button -->
+                <a href="#kontakt" class="hidden md:block px-8 py-2.5 bg-gradient-to-r from-brand-orange/90 via-brand-pink/90 to-brand-purple/90 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-bold shadow-lg shadow-pink-500/20 hover:shadow-pink-500/40 hover:-translate-y-0.5 transition-all">
+                    Kontakt
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-slate-700" onclick="toggleMobileMenu()">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+            
+            <div id="mobile-menu" class="hidden absolute top-full left-0 right-0 border-t border-white/20 bg-white/80 backdrop-blur-xl p-6 flex-col space-y-4 md:hidden shadow-xl">
+                <a href="#o-mnie" class="block text-center py-3 font-semibold text-slate-700 hover:text-brand-pink" onclick="toggleMobileMenu()">O MNIE</a>
+                <a href="#oferta" class="block text-center py-3 font-semibold text-slate-700 hover:text-brand-pink" onclick="toggleMobileMenu()">OFERTA</a>
+                <a href="#jak-pracujemy" class="block text-center py-3 font-semibold text-slate-700 hover:text-brand-pink" onclick="toggleMobileMenu()">JAK PRACUJEMY</a>
+                <a href="#kontakt" class="block text-center py-3 font-semibold text-slate-700 hover:text-brand-pink" onclick="toggleMobileMenu()">KONTAKT</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section (Clean background) -->
+        <section class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
+            <div id="hero-canvas-container">
+                <canvas id="hero-canvas"></canvas>
+            </div>
+            
+            <div class="relative z-10 max-w-7xl mx-auto px-6 text-center -mt-20">
+                <!-- Removed Pill -->
+
+                <h1 class="text-7xl md:text-9xl font-black mb-8 tracking-tighter leading-[0.85] text-slate-900 drop-shadow-sm filter">
+                    <span class="text-gradient">Usłysz</span> <br class="md:hidden" />różnicę.
+                </h1>
+                
+                <p class="text-xl md:text-2xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed font-medium">
+                    Masz ciekawą historię, ale zła jakość dźwięku odbiera jej moc? <br class="hidden md:block">
+                    Czas na <span class="font-bold text-slate-900 bg-white/50 px-2 rounded-lg">Re:akcję</span>.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-5 justify-center items-center">
+                    <!-- Glassmorphic Gradient Button -->
+                    <a href="#kontakt" class="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-brand-orange/90 via-brand-pink/90 to-brand-purple/90 backdrop-blur-md border border-white/30 text-white rounded-full font-bold text-lg shadow-xl shadow-pink-500/30 hover:shadow-pink-500/50 hover:-translate-y-1 hover:scale-105 transition-all duration-300">
+                        Posłuchaj Demo
+                    </a>
+                    <a href="#oferta" class="w-full sm:w-auto px-10 py-5 glass-base text-slate-800 rounded-full font-bold text-lg hover:bg-white/80 hover:scale-105 transition-all duration-300 border border-white/60">
+                        Sprawdź Ofertę
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- O Mnie -->
+        <section id="o-mnie" class="section-padding relative scroll-mt-28">
+            <!-- SEAM HIDER: White Fog Gradient (Restored) -->
+            <div class="absolute -top-48 left-0 w-full h-96 bg-gradient-to-b from-transparent via-[#f8fafc] to-[#f8fafc] z-10 pointer-events-none"></div>
+
+            <div class="max-w-6xl mx-auto px-6 relative z-20">
+                
+                <!-- Redesigned Card -->
+                <div class="glass-card rounded-[3rem] p-0 overflow-hidden shadow-2xl border border-white/60">
+                     <div class="grid grid-cols-1 lg:grid-cols-12 min-h-[600px] lg:min-h-[500px]">
+                         
+                         <!-- Image Side (5 cols) -->
+                         <div class="lg:col-span-5 relative h-96 lg:h-full group">
+                             <img src="https://files.catbox.moe/i7qf6e.png" alt="Basia Knapczyk Portrait" class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
+                             <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent"></div>
+                         </div>
+
+                         <!-- Content Side (7 cols) -->
+                         <div class="lg:col-span-7 p-10 md:p-14 flex flex-col justify-center relative">
+                             <!-- Subtle inner decoration -->
+                             <div class="absolute -right-20 -top-20 w-80 h-80 bg-brand-purple/10 blur-3xl rounded-full pointer-events-none"></div>
+
+                             <div class="relative z-10">
+                                 <div class="flex items-center gap-3 mb-6">
+                                     <span class="w-10 h-[2px] bg-brand-purple"></span>
+                                     <span class="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">O Mnie</span>
+                                 </div>
+
+                                 <h2 class="text-4xl md:text-5xl font-bold mb-8 text-slate-900 leading-tight">
+                                     RE:<span class="text-brand-purple">POST</span> — TWOJE STUDIO DŹWIĘKU.
+                                 </h2>
+
+                                 <div class="space-y-6 text-slate-600 text-lg leading-relaxed font-light mb-10">
+                                     <p>
+                                         Cześć! Nazywam się <strong class="text-slate-900 font-semibold">Basia Knapczyk</strong> i jestem reżyserką dźwięku. Wierzę, że dźwięk to nie jest tylko dodatek do filmu; to klucz do emocji i znacząca część historii.
+                                     </p>
+                                     <p>
+                                         Dobry dźwięk to taki, którego nie zauważamy. To esencja mojej pracy. Zły dźwięk utrudnia zanurzenie się w opowieści.
+                                     </p>
+                                 </div>
+
+                                 <!-- Education Block -->
+                                 <div class="glass-base p-6 rounded-2xl border-l-4 border-l-brand-purple">
+                                     <h4 class="text-brand-purple font-bold text-sm uppercase mb-2 tracking-wide">Edukacja</h4>
+                                     <p class="text-base text-slate-700 font-medium">
+                                         Ukończyłam reżyserię dźwięku na <strong class="text-slate-900">Uniwersytecie Muzycznym Fryderyka Chopina</strong> w Warszawie.
+                                     </p>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Oferta -->
+        <section id="oferta" class="section-padding relative scroll-mt-28">
+            <!-- Decorative background glow for the section -->
+             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-b from-transparent via-white/50 to-transparent pointer-events-none z-0"></div>
+
+            <div class="max-w-7xl mx-auto px-6 relative z-10">
+                <div class="text-center mb-24">
+                    <h2 class="text-5xl md:text-6xl font-bold mb-8 text-slate-900 tracking-tight">W czym mogę Ci <span class="text-gradient">pomóc?</span></h2>
+                    <p class="text-slate-600 max-w-2xl mx-auto text-xl font-light">Twoje nagrania zasługują na brzmienie klasy studyjnej. Wybierz obszar, w którym potrzebujesz wsparcia.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Card 1: Podcasty -->
+                    <div class="glass-card p-10 rounded-[2.5rem] flex flex-col h-full group hover:border-brand-orange/50 transition-all duration-500 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/10 rounded-bl-[100%] -mr-16 -mt-16 transition-transform group-hover:scale-150"></div>
+                        
+                        <div class="w-20 h-20 glass-base rounded-3xl flex items-center justify-center text-brand-orange mb-10 shadow-lg shadow-orange-500/10 group-hover:scale-110 group-hover:shadow-orange-500/30 transition-all duration-300">
+                            <i data-lucide="mic" class="w-10 h-10"></i>
+                        </div>
+                        
+                        <h3 class="text-3xl font-bold mb-6 text-slate-900 group-hover:text-brand-orange transition-colors">Podcasty</h3>
+                        
+                        <p class="text-slate-600 mb-10 flex-grow text-lg leading-relaxed">
+                            Profesjonalne brzmienie głosu to podstawa. Usuwam irytujące mlaśnięcia, oddechy i szumy, zapewniając radiową jakość i stałą głośność zgodną ze standardami (LUFS).
+                        </p>
+                        
+                        <div class="border-t border-slate-200/60 pt-8 mt-auto">
+                            <ul class="space-y-4 text-base text-slate-700 font-medium">
+                                <li class="flex items-start gap-4">
+                                    <span class="mt-1 w-5 h-5 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center text-xs">✓</span>
+                                    <span>Redukcja szumów i echa</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <span class="mt-1 w-5 h-5 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center text-xs">✓</span>
+                                    <span>Montaż i płynność rozmowy</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <span class="mt-1 w-5 h-5 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center text-xs">✓</span>
+                                    <span>Mastering pod Spotify/Apple</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Audiobooki -->
+                    <div class="glass-card p-10 rounded-[2.5rem] flex flex-col h-full group hover:border-brand-purple/50 transition-all duration-500 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-purple/10 rounded-bl-[100%] -mr-16 -mt-16 transition-transform group-hover:scale-150"></div>
+                        
+                        <div class="w-20 h-20 glass-base rounded-3xl flex items-center justify-center text-brand-purple mb-10 shadow-lg shadow-purple-500/10 group-hover:scale-110 group-hover:shadow-purple-500/30 transition-all duration-300">
+                            <i data-lucide="book-open" class="w-10 h-10"></i>
+                        </div>
+                        
+                        <h3 class="text-3xl font-bold mb-6 text-slate-900 group-hover:text-brand-purple transition-colors">Audiobooki</h3>
+                        
+                        <p class="text-slate-600 mb-10 flex-grow text-lg leading-relaxed">
+                            Przygotowanie nagrania pod rygorystyczne wymogi platform wydawniczych. Czysty, intymny głos lektora, który pozwala słuchaczowi całkowicie zanurzyć się w historii.
+                        </p>
+                        
+                        <div class="border-t border-slate-200/60 pt-8 mt-auto">
+                            <ul class="space-y-4 text-base text-slate-700 font-medium">
+                                <li class="flex items-start gap-4">
+                                    <span class="mt-1 w-5 h-5 rounded-full bg-brand-purple/20 text-brand-purple flex items-center justify-center text-xs">✓</span>
+                                    <span>Zgodność z ACX / Audible</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <span class="mt-1 w-5 h-5 rounded-full bg-brand-purple/20 text-brand-purple flex items-center justify-center text-xs">✓</span>
+                                    <span>Korekcja błędów lektorskich</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <span class="mt-1 w-5 h-5 rounded-full bg-brand-purple/20 text-brand-purple flex items-center justify-center text-xs">✓</span>
+                                    <span>Równy poziom RMS i Peak</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Film & Video -->
+                    <div class="glass-card p-10 rounded-[2.5rem] flex flex-col h-full group hover:border-brand-pink/50 transition-all duration-500 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-pink/10 rounded-bl-[100%] -mr-16 -mt-16 transition-transform group-hover:scale-150"></div>
+                        
+                        <div class="w-20 h-20 glass-base rounded-3xl flex items-center justify-center text-brand-pink mb-10 shadow-lg shadow-pink-500/10 group-hover:scale-110 group-hover:shadow-pink-500/30 transition-all duration-300">
+                            <i data-lucide="video" class="w-10 h-10"></i>
+                        </div>
+                        
+                        <h3 class="text-3xl font-bold mb-6 text-slate-900 group-hover:text-brand-pink transition-colors">Film & Video</h3>
+                        
+                        <p class="text-slate-600 mb-10 flex-grow text-lg leading-relaxed">
+                            Dźwięk to 50% wrażenia z filmu. Tworzę bogate tła dźwiękowe, efekty Foley i ratuję dialogi nagrane w trudnych warunkach, aby Twój obraz nabrał filmowego charakteru.
+                        </p>
+                        
+                        <div class="border-t border-slate-200/60 pt-8 mt-auto">
+                            <ul class="space-y-4 text-base text-slate-700 font-medium">
+                                <li class="flex items-start gap-4">
+                                    <span class="mt-1 w-5 h-5 rounded-full bg-brand-pink/20 text-brand-pink flex items-center justify-center text-xs">✓</span>
+                                    <span>Sound Design & Atmosfery</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <span class="mt-1 w-5 h-5 rounded-full bg-brand-pink/20 text-brand-pink flex items-center justify-center text-xs">✓</span>
+                                    <span>Czyszczenie dialogów (iZotope)</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <span class="mt-1 w-5 h-5 rounded-full bg-brand-pink/20 text-brand-pink flex items-center justify-center text-xs">✓</span>
+                                    <span>Miks Stereo i Surround</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Jak pracujemy (Redesigned Vertical) -->
+        <section id="jak-pracujemy" class="section-padding scroll-mt-28">
+            <div class="max-w-5xl mx-auto px-6">
+                <div class="text-center mb-20">
+                    <h2 class="text-5xl md:text-6xl font-bold mb-6 text-slate-900">Jak wygląda <span class="text-gradient">współpraca</span>?</h2>
+                    <p class="text-slate-500 text-xl font-light">Przejrzysty proces od pierwszej wiadomości do finalnego masteringu.</p>
+                </div>
+
+                <div class="relative space-y-12">
+                    
+                    <!-- Step 1 -->
+                    <div class="relative flex gap-8 md:gap-12 group">
+                        <!-- Line connecting to next -->
+                        <div class="absolute left-[2rem] md:left-[2.5rem] top-16 h-[calc(100%+3rem)] w-1 bg-slate-200 group-hover:bg-brand-orange/50 transition-colors"></div>
+                        
+                        <!-- Number -->
+                        <div class="relative z-10 flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-brand-orange text-white rounded-full flex items-center justify-center font-black text-2xl md:text-3xl shadow-xl shadow-orange-500/30 ring-8 ring-white/30 backdrop-blur-sm">1</div>
+                        
+                        <!-- Card -->
+                        <div class="glass-card p-10 md:p-12 rounded-[2.5rem] w-full border border-white/60 relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/10 hover:-translate-y-1">
+                            <h4 class="text-3xl md:text-4xl font-bold mb-4 text-slate-900">Kontakt</h4>
+                            <p class="text-xl text-slate-600 leading-relaxed">Przesyłasz mi szczegóły projektu i surowe nagrania do wglądu przez formularz.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="relative flex gap-8 md:gap-12 group">
+                        <!-- Line connecting to next -->
+                        <div class="absolute left-[2rem] md:left-[2.5rem] top-16 h-[calc(100%+3rem)] w-1 bg-slate-200 group-hover:bg-brand-pink/50 transition-colors"></div>
+                        
+                        <!-- Number -->
+                        <div class="relative z-10 flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-brand-pink text-white rounded-full flex items-center justify-center font-black text-2xl md:text-3xl shadow-xl shadow-pink-500/30 ring-8 ring-white/30 backdrop-blur-sm">2</div>
+                        
+                        <!-- Card -->
+                        <div class="glass-card p-10 md:p-12 rounded-[2.5rem] w-full border border-white/60 relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-pink-500/10 hover:-translate-y-1">
+                            <h4 class="text-3xl md:text-4xl font-bold mb-4 text-slate-900">Wycena</h4>
+                            <p class="text-xl text-slate-600 leading-relaxed">Przygotowuję darmową próbkę audio (ok. 1 min) i wyceniam całość prac.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="relative flex gap-8 md:gap-12 group">
+                        <!-- Line connecting to next -->
+                        <div class="absolute left-[2rem] md:left-[2.5rem] top-16 h-[calc(100%+3rem)] w-1 bg-slate-200 group-hover:bg-brand-purple/50 transition-colors"></div>
+                        
+                        <!-- Number -->
+                        <div class="relative z-10 flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-brand-purple text-white rounded-full flex items-center justify-center font-black text-2xl md:text-3xl shadow-xl shadow-purple-500/30 ring-8 ring-white/30 backdrop-blur-sm">3</div>
+                        
+                        <!-- Card -->
+                        <div class="glass-card p-10 md:p-12 rounded-[2.5rem] w-full border border-white/60 relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10 hover:-translate-y-1">
+                            <h4 class="text-3xl md:text-4xl font-bold mb-4 text-slate-900">Realizacja</h4>
+                            <p class="text-xl text-slate-600 leading-relaxed">Pracuję nad brzmieniem, czyszczę audio i nakładam efekty. Jesteśmy w stałym kontakcie.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="relative flex gap-8 md:gap-12 group">
+                        <!-- No Line for last item -->
+                        
+                        <!-- Number -->
+                        <div class="relative z-10 flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-slate-800 text-white rounded-full flex items-center justify-center font-black text-2xl md:text-3xl shadow-xl shadow-slate-500/30 ring-8 ring-white/30 backdrop-blur-sm">4</div>
+                        
+                        <!-- Card -->
+                        <div class="glass-card p-10 md:p-12 rounded-[2.5rem] w-full border border-white/60 relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-slate-500/10 hover:-translate-y-1">
+                            <h4 class="text-3xl md:text-4xl font-bold mb-4 text-slate-900">Finalizacja</h4>
+                            <p class="text-xl text-slate-600 leading-relaxed">Wprowadzam Twoje poprawki i wysyłam gotowe pliki w profesjonalnym formacie.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Kontakt -->
+        <section id="kontakt" class="section-padding scroll-mt-28">
+            <div class="max-w-4xl mx-auto px-6">
+                <div class="glass-base rounded-[3rem] p-10 md:p-20 shadow-2xl relative overflow-hidden">
+                     <!-- Subtle inner gradient for the form panel -->
+                    <div class="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-brand-pink/10 via-transparent to-brand-orange/5 pointer-events-none"></div>
+                    
+                    <div class="relative z-10 text-center mb-12">
+                        <h2 class="text-4xl md:text-5xl font-bold mb-4 text-slate-900">Napisz do mnie</h2>
+                        <p class="text-slate-500">Masz pytania? Chcesz wycenić projekt? Jestem do dyspozycji.</p>
+                    </div>
+
+                    <form class="relative z-10 space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Imię i Nazwisko</label>
+                                <input type="text" placeholder="Jan Kowalski" class="w-full px-6 py-4 rounded-2xl bg-white/40 border border-white/60 focus:border-brand-pink focus:bg-white/60 focus:ring-4 focus:ring-brand-pink/10 outline-none transition-all placeholder-slate-400 backdrop-blur-sm text-slate-800 font-medium shadow-sm">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">E-mail</label>
+                                <input type="email" placeholder="kontakt@twojafirma.pl" class="w-full px-6 py-4 rounded-2xl bg-white/40 border border-white/60 focus:border-brand-pink focus:bg-white/60 focus:ring-4 focus:ring-brand-pink/10 outline-none transition-all placeholder-slate-400 backdrop-blur-sm text-slate-800 font-medium shadow-sm">
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Twój Projekt</label>
+                            <textarea rows="4" placeholder="Opisz krótko, jak mogę Ci pomóc..." class="w-full px-6 py-4 rounded-2xl bg-white/40 border border-white/60 focus:border-brand-pink focus:bg-white/60 focus:ring-4 focus:ring-brand-pink/10 outline-none transition-all placeholder-slate-400 resize-none backdrop-blur-sm text-slate-800 font-medium shadow-sm"></textarea>
+                        </div>
+
+                        <button type="button" class="w-full py-5 bg-gradient-to-r from-brand-orange via-brand-pink to-brand-purple text-white rounded-2xl font-bold text-lg shadow-xl shadow-pink-500/30 hover:shadow-pink-500/50 hover:scale-[1.01] hover:-translate-y-1 transition-all active:scale-95">
+                            Wyślij zapytanie
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-12 text-center text-slate-400 text-sm glass-base border-t border-white/40 mt-10">
+            <div class="max-w-6xl mx-auto px-6 flex flex-col items-center">
+                <p class="mb-4 font-medium">re:post studio © 2024</p>
+                <div class="flex space-x-6 mt-2">
+                    <a href="#" class="hover:text-brand-pink hover:scale-110 transition-all p-2 bg-white/40 rounded-full shadow-sm"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                    <a href="#" class="hover:text-brand-pink hover:scale-110 transition-all p-2 bg-white/40 rounded-full shadow-sm"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                    <a href="#" class="hover:text-brand-pink hover:scale-110 transition-all p-2 bg-white/40 rounded-full shadow-sm"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                menu.classList.add('flex');
+            } else {
+                menu.classList.add('hidden');
+                menu.classList.remove('flex');
+            }
+        }
+
+        // --- BACKGROUND PARALLAX ---
+        // Optimization: Use a running flag for RequestAnimationFrame
+        let isScrolling = false;
+        
+        window.addEventListener('scroll', () => {
+            if (!isScrolling) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.scrollY;
+                    const blobContainers = document.querySelectorAll('.blob-cont');
+                    
+                    blobContainers.forEach((container) => {
+                        const speed = parseFloat(container.getAttribute('data-parallax')) || 0.2;
+                        // Use translate3d for hardware acceleration
+                        // Parallax effect applies to the CONTAINER, while CSS animation applies to the inner .blob
+                        container.style.transform = `translate3d(0, ${scrolled * speed}px, 0)`;
+                    });
+                    
+                    isScrolling = false;
+                });
+                isScrolling = true;
+            }
+        });
+
+        // --- THREE.JS AUDIO WAVE ANIMATION ---
+        
+        const initThreeJS = () => {
+            const canvas = document.getElementById('hero-canvas');
+            if (!canvas) return;
+
+            const scene = new THREE.Scene();
+            
+            // Camera setup
+            const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 15;
+            camera.position.y = 1;
+            camera.lookAt(0, 0, 0);
+
+            const renderer = new THREE.WebGLRenderer({ 
+                canvas: canvas, 
+                alpha: true, 
+                antialias: true 
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            // Geometry: Long, narrow strip
+            const geometry = new THREE.PlaneGeometry(60, 4, 300, 20);
+            
+            // Custom Shader for "ElevenLabs" Silky Ribbon with Fluid Colors
+            const material = new THREE.ShaderMaterial({
+                uniforms: {
+                    uTime: { value: 0 },
+                    uColor1: { value: new THREE.Color('#7c3aed') }, // Violet
+                    uColor2: { value: new THREE.Color('#db2777') }, // Pink
+                    uColor3: { value: new THREE.Color('#ea580c') }  // Orange
+                },
+                vertexShader: `
+                    varying vec2 vUv;
+                    varying float vTwist;
+                    varying vec3 vNormal;
+                    varying vec3 vViewPosition;
+                    uniform float uTime;
+
+                    void main() {
+                        vUv = uv;
+                        vec3 pos = position;
+                        
+                        float t = uTime * 0.4;
+                        
+                        // Main Wave Path (Sine)
+                        float pathOffset = sin(pos.x * 0.2 + t) * 2.0;
+                        pos.y += pathOffset;
+                        
+                        // 3D Twist Effect
+                        float twistAngle = sin(pos.x * 0.3 + t * 0.8) * 1.5;
+                        vTwist = twistAngle; 
+
+                        // Width Offset
+                        float widthOffset = position.y; 
+                        
+                        // Reset y to center line height before applying width rotation
+                        float centerLineY = pathOffset;
+                        float centerLineZ = sin(pos.x * 0.25 + t * 0.9) * 2.0; 
+                        
+                        // Rotate the width vector
+                        float ny = widthOffset * cos(twistAngle);
+                        float nz = widthOffset * sin(twistAngle);
+                        
+                        pos.y = centerLineY + ny;
+                        pos.z = centerLineZ + nz;
+
+                        // Approx Normal Calculation
+                        vec3 n = vec3(0.0, -sin(twistAngle), cos(twistAngle));
+                        vNormal = normalize(normalMatrix * n);
+                        
+                        vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+                        vViewPosition = -mvPosition.xyz;
+                        gl_Position = projectionMatrix * mvPosition;
+                    }
+                `,
+                fragmentShader: `
+                    uniform vec3 uColor1;
+                    uniform vec3 uColor2;
+                    uniform vec3 uColor3;
+                    uniform float uTime;
+                    varying vec2 vUv;
+                    varying vec3 vNormal;
+                    varying vec3 vViewPosition;
+
+                    // Pseudo-random noise function
+                    float random(vec2 st) {
+                        return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+                    }
+
+                    void main() {
+                        vec3 viewDir = normalize(vViewPosition);
+                        vec3 normal = normalize(vNormal);
+                        vec3 lightDir = normalize(vec3(0.5, 1.0, 1.0));
+
+                        float diff = max(dot(normal, lightDir), 0.0);
+                        vec3 reflectDir = reflect(-lightDir, normal);
+                        float spec = pow(max(dot(viewDir, reflectDir), 0.0), 8.0);
+                        float fresnel = pow(1.0 - max(dot(viewDir, normal), 0.0), 3.0);
+
+                        float t = normal.y; 
+                        vec3 baseColor;
+                        if (t > 0.0) {
+                            baseColor = mix(uColor2, uColor3, t);
+                        } else {
+                            baseColor = mix(uColor2, uColor1, -t);
+                        }
+                        
+                        vec3 finalColor = baseColor;
+                        finalColor += uColor3 * spec * 0.3; 
+                        finalColor += uColor2 * fresnel * 0.4; 
+                        
+                        if (!gl_FrontFacing) {
+                             finalColor *= 0.6;
+                        }
+
+                        // Add animated grain/noise
+                        // Scale UVs anisotropically to match ribbon geometry (width 60 vs height 4)
+                        vec2 grainUv = vec2(vUv.x * 1000.0, vUv.y * 60.0);
+                        float noise = random(grainUv); // Removed uTime for static noise
+                        
+                        // Subtract noise for a textured look
+                        finalColor -= noise * 0.12;
+
+                        gl_FragColor = vec4(finalColor, 1.0);
+                    }
+                `,
+                side: THREE.DoubleSide,
+                transparent: true,
+            });
+
+            const waveMesh = new THREE.Mesh(geometry, material);
+            waveMesh.position.y = -4.5; 
+            scene.add(waveMesh);
+
+            const clock = new THREE.Clock();
+
+            const animate = () => {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+                material.uniforms.uTime.value = elapsedTime;
+                renderer.render(scene, camera);
+            };
+
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+
+        window.addEventListener('DOMContentLoaded', initThreeJS);
+
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
