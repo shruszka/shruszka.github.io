@@ -245,8 +245,7 @@
                 <div class="hidden md:flex items-center space-x-10 text-sm font-semibold text-slate-700">
                     <a href="#o-mnie" class="hover:text-brand-pink transition-colors">O MNIE</a>
                     <a href="#oferta" class="hover:text-brand-pink transition-colors">OFERTA</a>
-                    <a href="#jak-pracujemy" class="hover:text-brand-pink transition-colors">JAK PRACUJEMY</a>
-                    <a href="#kontakt" class="hover:text-brand-pink transition-colors">KONTAKT</a>
+                    <a href="#jak-pracujemy" class="hover:text-brand-pink transition-colors">WSPÓŁPRACA</a>
                 </div>
 
                 <!-- Glassmorphic Gradient Button -->
@@ -288,7 +287,7 @@
                 
                 <div class="flex flex-col sm:flex-row gap-5 justify-center items-center">
                     <!-- Glassmorphic Gradient Button -->
-                    <a href="#kontakt" class="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-brand-orange/90 via-brand-pink/90 to-brand-purple/90 backdrop-blur-md border border-white/30 text-white rounded-full font-bold text-lg shadow-xl shadow-pink-500/30 hover:shadow-pink-500/50 hover:-translate-y-1 hover:scale-105 transition-all duration-300">
+                    <a href="#demo" class="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-brand-orange/90 via-brand-pink/90 to-brand-purple/90 backdrop-blur-md border border-white/30 text-white rounded-full font-bold text-lg shadow-xl shadow-pink-500/30 hover:shadow-pink-500/50 hover:-translate-y-1 hover:scale-105 transition-all duration-300">
                         Posłuchaj Demo
                     </a>
                     <a href="#oferta" class="w-full sm:w-auto px-10 py-5 glass-base text-slate-800 rounded-full font-bold text-lg hover:bg-white/80 hover:scale-105 transition-all duration-300 border border-white/60">
@@ -306,7 +305,7 @@
             <div class="max-w-6xl mx-auto px-6 relative z-20">
                 
                 <!-- Redesigned Card -->
-                <div class="glass-card rounded-[3rem] p-0 overflow-hidden shadow-2xl border border-white/60">
+                <div class="glass-card rounded-[3rem] p-0 overflow-hidden shadow-2xl border border-white/60 mb-12">
                      <div class="grid grid-cols-1 lg:grid-cols-12 min-h-[600px] lg:min-h-[500px]">
                          
                          <!-- Image Side (5 cols) -->
@@ -335,21 +334,82 @@
                                          Cześć! Nazywam się <strong class="text-slate-900 font-semibold">Basia Knapczyk</strong> i jestem reżyserką dźwięku. Wierzę, że dźwięk to nie jest tylko dodatek do filmu; to klucz do emocji i znacząca część historii.
                                      </p>
                                      <p>
-                                         Dobry dźwięk to taki, którego nie zauważamy. To esencja mojej pracy. Zły dźwięk utrudnia zanurzenie się w opowieści.
+                                         Dobry dźwięk to taki, którego nie zauważamy. To esencja mojej pracy. Zły dźwięk utrudnia zanurzenie się w opowieści, natomiast profesjonalna postprodukcja sprawia, że odbiorca całkowicie zatapia się w treści.
                                      </p>
                                  </div>
 
-                                 <!-- Education Block -->
-                                 <div class="glass-base p-6 rounded-2xl border-l-4 border-l-brand-purple">
-                                     <h4 class="text-brand-purple font-bold text-sm uppercase mb-2 tracking-wide">Edukacja</h4>
-                                     <p class="text-base text-slate-700 font-medium">
-                                         Ukończyłam reżyserię dźwięku na <strong class="text-slate-900">Uniwersytecie Muzycznym Fryderyka Chopina</strong> w Warszawie.
-                                     </p>
-                                 </div>
+                                 <!-- Trust / Education Block (Redesigned) -->
+                                 <div class="glass-card p-6 rounded-2xl border border-white/50 bg-gradient-to-br from-white/60 to-white/20 relative overflow-hidden group hover:bg-white/70 transition-all">
+                                    <div class="absolute top-0 right-0 w-24 h-24 bg-brand-purple/10 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-125"></div>
+                                    <div class="flex items-start gap-4 relative z-10">
+                                        <div class="p-3 bg-white/50 rounded-xl text-brand-purple shadow-sm">
+                                            <i data-lucide="award" class="w-6 h-6"></i>
+                                        </div>
+                                        <div>
+                                             <h4 class="text-brand-purple font-bold text-sm uppercase mb-1 tracking-wide">Dlaczego warto mi zaufać?</h4>
+                                             <p class="text-base text-slate-700 font-medium leading-relaxed">
+                                                 Ukończyłam reżyserię dźwięku na <strong class="text-slate-900">Uniwersytecie Muzycznym Fryderyka Chopina</strong> w Warszawie. Moje doświadczenie obejmuje każdy etap produkcji dźwięku: od pracy na planie filmowym, przez nagrania postsynchronów, precyzyjną edycję dialogów, tworzenie unikalnego sound designu po finalne zgranie.
+                                             </p>
+                                        </div>
+                                    </div>
+                                </div>
                              </div>
                          </div>
                      </div>
                 </div>
+
+                <!-- Portfolio Videos Section -->
+                <div id="demo" class="mb-10 pt-10 scroll-mt-28">
+                    <div class="text-center mb-12">
+                        <div class="flex items-center justify-center gap-3 mb-4">
+                            <span class="w-8 h-[2px] bg-brand-pink"></span>
+                            <span class="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">Portfolio</span>
+                            <span class="w-8 h-[2px] bg-brand-pink"></span>
+                        </div>
+                        <h3 class="text-3xl md:text-4xl font-bold text-slate-900">Posłuchaj <span class="text-gradient">demo</span></h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Video Placeholder 1 -->
+                        <div class="glass-card p-4 rounded-[2rem] hover:-translate-y-1 transition-transform duration-300">
+                            <div class="aspect-video w-full rounded-2xl bg-slate-900/5 overflow-hidden relative group cursor-pointer border border-white/30">
+                                <!-- Placeholder Image (Overlay) -->
+                                <div class="absolute inset-0 bg-slate-900/20 group-hover:bg-slate-900/10 transition-colors z-10 flex items-center justify-center">
+                                    <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg border border-white/40">
+                                        <i data-lucide="play" class="w-6 h-6 text-white fill-white ml-1"></i>
+                                    </div>
+                                </div>
+                                <!-- Mock Content -->
+                                <img src="https://picsum.photos/800/450?grayscale&blur=2" alt="Portfolio 1" class="w-full h-full object-cover">
+                                
+                                <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-slate-900/80 to-transparent z-20">
+                                    <span class="text-brand-orange text-xs font-bold uppercase tracking-wider mb-1 block">Audiobook</span>
+                                    <h3 class="text-white font-bold text-lg">Przykładowy Projekt #1</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Video Placeholder 2 -->
+                        <div class="glass-card p-4 rounded-[2rem] hover:-translate-y-1 transition-transform duration-300">
+                            <div class="aspect-video w-full rounded-2xl bg-slate-900/5 overflow-hidden relative group cursor-pointer border border-white/30">
+                                <!-- Placeholder Image (Overlay) -->
+                                <div class="absolute inset-0 bg-slate-900/20 group-hover:bg-slate-900/10 transition-colors z-10 flex items-center justify-center">
+                                    <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg border border-white/40">
+                                        <i data-lucide="play" class="w-6 h-6 text-white fill-white ml-1"></i>
+                                    </div>
+                                </div>
+                                <!-- Mock Content -->
+                                <img src="https://picsum.photos/800/450?grayscale&blur=2&random=2" alt="Portfolio 2" class="w-full h-full object-cover">
+                                
+                                <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-slate-900/80 to-transparent z-20">
+                                    <span class="text-brand-pink text-xs font-bold uppercase tracking-wider mb-1 block">Postprodukcja</span>
+                                    <h3 class="text-white font-bold text-lg">Przykładowy Projekt #2</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -376,7 +436,7 @@
                         <h3 class="text-3xl font-bold mb-6 text-slate-900 group-hover:text-brand-orange transition-colors">Podcasty</h3>
                         
                         <p class="text-slate-600 mb-10 flex-grow text-lg leading-relaxed">
-                            Profesjonalne brzmienie głosu to podstawa. Usuwam irytujące mlaśnięcia, oddechy i szumy, zapewniając radiową jakość i stałą głośność zgodną ze standardami (LUFS).
+                            Sprawiam, że Twój głos brzmi profesjonalnie. Usuwam mlaśnięcia, szumy i dbam o stały poziom głośności (LUFS)..
                         </p>
                         
                         <div class="border-t border-slate-200/60 pt-8 mt-auto">
@@ -387,11 +447,11 @@
                                 </li>
                                 <li class="flex items-start gap-4">
                                     <span class="mt-1 w-5 h-5 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center text-xs">✓</span>
-                                    <span>Montaż i płynność rozmowy</span>
+                                    <span>Mikro-montaż treści</span>
                                 </li>
                                 <li class="flex items-start gap-4">
                                     <span class="mt-1 w-5 h-5 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center text-xs">✓</span>
-                                    <span>Mastering pod Spotify/Apple</span>
+                                    <span>Coś jeszcze żeby byly trzy</span>
                                 </li>
                             </ul>
                         </div>
@@ -408,14 +468,14 @@
                         <h3 class="text-3xl font-bold mb-6 text-slate-900 group-hover:text-brand-purple transition-colors">Audiobooki</h3>
                         
                         <p class="text-slate-600 mb-10 flex-grow text-lg leading-relaxed">
-                            Przygotowanie nagrania pod rygorystyczne wymogi platform wydawniczych. Czysty, intymny głos lektora, który pozwala słuchaczowi całkowicie zanurzyć się w historii.
+                            Zanurz słuchacza w lekturze. Gwarantuję parametry techniczne zgodne z normami Audible/ACX.
                         </p>
                         
                         <div class="border-t border-slate-200/60 pt-8 mt-auto">
                             <ul class="space-y-4 text-base text-slate-700 font-medium">
                                 <li class="flex items-start gap-4">
                                     <span class="mt-1 w-5 h-5 rounded-full bg-brand-purple/20 text-brand-purple flex items-center justify-center text-xs">✓</span>
-                                    <span>Zgodność z ACX / Audible</span>
+                                    <span>Zgodność z ACX</span>
                                 </li>
                                 <li class="flex items-start gap-4">
                                     <span class="mt-1 w-5 h-5 rounded-full bg-brand-purple/20 text-brand-purple flex items-center justify-center text-xs">✓</span>
@@ -423,7 +483,7 @@
                                 </li>
                                 <li class="flex items-start gap-4">
                                     <span class="mt-1 w-5 h-5 rounded-full bg-brand-purple/20 text-brand-purple flex items-center justify-center text-xs">✓</span>
-                                    <span>Równy poziom RMS i Peak</span>
+                                    <span>Coś jeszcze tutaj dajmy</span>
                                 </li>
                             </ul>
                         </div>
@@ -440,22 +500,22 @@
                         <h3 class="text-3xl font-bold mb-6 text-slate-900 group-hover:text-brand-pink transition-colors">Film & Video</h3>
                         
                         <p class="text-slate-600 mb-10 flex-grow text-lg leading-relaxed">
-                            Dźwięk to 50% wrażenia z filmu. Tworzę bogate tła dźwiękowe, efekty Foley i ratuję dialogi nagrane w trudnych warunkach, aby Twój obraz nabrał filmowego charakteru.
+                            Dźwięk, który buduje obraz. Projektuję atmosfery, Foley i ratuję nagrania z trudnych warunków.
                         </p>
                         
                         <div class="border-t border-slate-200/60 pt-8 mt-auto">
                             <ul class="space-y-4 text-base text-slate-700 font-medium">
                                 <li class="flex items-start gap-4">
                                     <span class="mt-1 w-5 h-5 rounded-full bg-brand-pink/20 text-brand-pink flex items-center justify-center text-xs">✓</span>
-                                    <span>Sound Design & Atmosfery</span>
+                                    <span>Sound Design</span>
                                 </li>
                                 <li class="flex items-start gap-4">
                                     <span class="mt-1 w-5 h-5 rounded-full bg-brand-pink/20 text-brand-pink flex items-center justify-center text-xs">✓</span>
-                                    <span>Czyszczenie dialogów (iZotope)</span>
+                                    <span>Renowacja audio z planu</span>
                                 </li>
                                 <li class="flex items-start gap-4">
                                     <span class="mt-1 w-5 h-5 rounded-full bg-brand-pink/20 text-brand-pink flex items-center justify-center text-xs">✓</span>
-                                    <span>Miks Stereo i Surround</span>
+                                    <span>Mixing</span>
                                 </li>
                             </ul>
                         </div>
